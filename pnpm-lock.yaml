@@ -30,8 +30,8 @@ importers:
         specifier: ^0.25.0
         version: 0.25.0
       drizzle-orm:
-        specifier: ^0.34.0
-        version: 0.34.1(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.11)(@vercel/postgres@0.10.0(utf-8-validate@6.0.4))(react@18.3.1)
+        specifier: ^0.35.0
+        version: 0.35.0(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.11)(@vercel/postgres@0.10.0(utf-8-validate@6.0.4))(react@18.3.1)
       eslint:
         specifier: 9.12.0
         version: 9.12.0(jiti@1.21.6)
@@ -864,8 +864,8 @@ packages:
     resolution: {integrity: sha512-Rcf0nYCAKizwjWQCY+d3zytyuTbDb81NcaPor+8NebESlUz1+9W3uGl0+r9FhU4Qal5Zv9j/7neXCSCe7DHzjA==}
     hasBin: true
 
-  drizzle-orm@0.34.1:
-    resolution: {integrity: sha512-t+zCwyWWt8xTqtYV4doE/xYmT7hpv1L8pQ66zddEz+3VWyedBBtctjMAp22mAJPfyWurRQXUJ1nrTtqLq+DqNA==}
+  drizzle-orm@0.35.0:
+    resolution: {integrity: sha512-fyTKnQ6WZQqSUy6yM4Do2tJPBg1ALR0vJtO9xUTLLubD+0qS1PPuu8aVOeLZQo+g8RPJn+Vqoh30/3lSS8/a2w==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -2724,7 +2724,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.34.1(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.11)(@vercel/postgres@0.10.0(utf-8-validate@6.0.4))(react@18.3.1):
+  drizzle-orm@0.35.0(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.11)(@vercel/postgres@0.10.0(utf-8-validate@6.0.4))(react@18.3.1):
     optionalDependencies:
       '@neondatabase/serverless': 0.9.4
       '@types/pg': 8.11.6

@@ -13,7 +13,6 @@ import {
     UserReadChapter
 } from './schema';
 import {v4 as uuidv4} from 'uuid';
-import {characters, conversations} from "../../drizzle/schema"; // Utilisé pour générer des UUID
 
 // Initialisation de la base de données
 const db = drizzle(process.env.DATABASE_URL!);
@@ -55,6 +54,7 @@ async function main() {
         views: 100,
         createdAt: new Date(),
         updatedAt: new Date(),
+        category: 'marvelous',
     };
 
     await db.insert(Story).values(story);

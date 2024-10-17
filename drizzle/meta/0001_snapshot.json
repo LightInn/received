@@ -1,6 +1,6 @@
 {
-  "id": "859464d6-3ee4-4201-aafb-e822d317b48b",
-  "prevId": "e8fb7f59-4b52-4b64-a63f-9a44f58cbe00",
+  "id": "e34cc283-ff62-4bd4-84bb-c17bf956b302",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -639,6 +639,12 @@
           "primaryKey": false,
           "notNull": true,
           "default": "''"
+        },
+        "category": {
+          "name": "category",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
         },
         "createdAt": {
           "name": "createdAt",

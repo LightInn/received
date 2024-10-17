@@ -29,6 +29,7 @@ export const Story = pgTable("stories", {
     likes: integer().default(0),
     views: integer().default(0),
     description: text().default("").notNull(),
+    category: varchar({length: 255}),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull(),
 });

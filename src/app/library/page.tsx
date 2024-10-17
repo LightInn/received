@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Flame, TrendingUp, Sparkles, BookOpen, Eye, ChevronRight } from "lucide-react"
+import {Navbar} from "@/components/global/navbar";
 
 // Mock data for stories
 const mockStories = [
@@ -83,6 +84,7 @@ export default function LibraryPage() {
 
     return (
         <div className="container mx-auto p-4">
+            <Navbar/>
             <h1 className="text-3xl font-bold mb-6">Discover Stories</h1>
             <div className="mb-6">
                 <Input

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Trash2, Image as ImageIcon, Send } from "lucide-react"
+import {Navbar} from "@/components/global/navbar";
 
 type Character = {
     id: string
@@ -146,6 +147,7 @@ export default function EditorPage() {
 
     return (
         <div className="container mx-auto p-4">
+            <Navbar/>
             <h1 className="text-3xl font-bold mb-6">Story Editor</h1>
             <Tabs defaultValue="chapters" className="space-y-4">
                 <TabsList>

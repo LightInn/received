@@ -1,32 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { users, stories, chapters, comments, messages, pointsOfView, purchases, userReadChapters } from "./schema";
-
-export const storiesRelations = relations(stories, ({one, many}) => ({
-	user: one(users, {
-		fields: [stories.authorId],
-		references: [users.id]
-	}),
-	chapters: many(chapters),
-	comments: many(comments),
-	purchases: many(purchases),
-}));
-
-export const usersRelations = relations(users, ({many}) => ({
-	stories: many(stories),
-	comments: many(comments),
-	purchases: many(purchases),
-	userReadChapters: many(userReadChapters),
-}));
-
-export const chaptersRelations = relations(chapters, ({one, many}) => ({
-	story: one(stories, {
-		fields: [chapters.storyId],
-		references: [stories.id]
-	}),
-	messages: many(messages),
-	pointsOfViews: many(pointsOfView),
-	userReadChapters: many(userReadChapters),
-}));
+import { stories, comments, users, conversations, chapters, pointsOfView, characters, messages, purchases, reviews, userReadChapters } from "./schema";
 
 export const commentsRelations = relations(comments, ({one}) => ({
 	story: one(stories, {
@@ -39,17 +12,82 @@ export const commentsRelations = relations(comments, ({one}) => ({
 	}),
 }));
 
-export const messagesRelations = relations(messages, ({one}) => ({
+export const storiesRelations = relations(stories, ({one, many}) => ({
+	comments: many(comments),
+	conversations: many(conversations),
+	characters: many(characters),
+	user: one(users, {
+		fields: [stories.authorId],
+		references: [users.id]
+	}),
+	purchases: many(purchases),
+	reviews: many(reviews),
+	chapters: many(chapters),
+}));
+
+export const usersRelations = relations(users, ({many}) => ({
+	comments: many(comments),
+	stories: many(stories),
+	purchases: many(purchases),
+	reviews: many(reviews),
+	userReadChapters: many(userReadChapters),
+}));
+
+export const conversationsRelations = relations(conversations, ({one, many}) => ({
+	story: one(stories, {
+		fields: [conversations.storyId],
+		references: [stories.id]
+	}),
 	chapter: one(chapters, {
-		fields: [messages.chapterId],
+		fields: [conversations.chapterId],
 		references: [chapters.id]
 	}),
+	messages: many(messages),
+}));
+
+export const chaptersRelations = relations(chapters, ({one, many}) => ({
+	conversations: many(conversations),
+	pointsOfViews: many(pointsOfView),
+	messages: many(messages),
+	story: one(stories, {
+		fields: [chapters.storyId],
+		references: [stories.id]
+	}),
+	userReadChapters: many(userReadChapters),
 }));
 
 export const pointsOfViewRelations = relations(pointsOfView, ({one}) => ({
 	chapter: one(chapters, {
 		fields: [pointsOfView.chapterId],
 		references: [chapters.id]
+	}),
+	character: one(characters, {
+		fields: [pointsOfView.characterId],
+		references: [characters.id]
+	}),
+}));
+
+export const charactersRelations = relations(characters, ({one, many}) => ({
+	pointsOfViews: many(pointsOfView),
+	story: one(stories, {
+		fields: [characters.storyId],
+		references: [stories.id]
+	}),
+	messages: many(messages),
+}));
+
+export const messagesRelations = relations(messages, ({one}) => ({
+	chapter: one(chapters, {
+		fields: [messages.chapterId],
+		references: [chapters.id]
+	}),
+	conversation: one(conversations, {
+		fields: [messages.conversationId],
+		references: [conversations.id]
+	}),
+	character: one(characters, {
+		fields: [messages.senderId],
+		references: [characters.id]
 	}),
 }));
 
@@ -61,6 +99,17 @@ export const purchasesRelations = relations(purchases, ({one}) => ({
 	story: one(stories, {
 		fields: [purchases.storyId],
 		references: [stories.id]
+	}),
+}));
+
+export const reviewsRelations = relations(reviews, ({one}) => ({
+	story: one(stories, {
+		fields: [reviews.storyId],
+		references: [stories.id]
+	}),
+	user: one(users, {
+		fields: [reviews.userId],
+		references: [users.id]
 	}),
 }));
 

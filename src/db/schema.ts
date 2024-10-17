@@ -3,9 +3,11 @@ import {relations} from 'drizzle-orm';
 
 // Table des utilisateurs
 export const User = pgTable("users", {
-    id: uuid().primaryKey().defaultRandom().notNull(),
+    id: uuid().primaryKey().defaultRandom(),
     username: varchar({length: 255}).notNull().unique(),
     email: varchar({length: 255}).notNull().unique(),
+    age: integer().notNull(),
+    nsfw: boolean().default(false).notNull(),
     password: varchar({length: 255}).notNull(),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull(),
@@ -20,12 +22,13 @@ export const userRelations = relations(User, ({many}) => ({
 
 // Table des histoires
 export const Story = pgTable("stories", {
-    id: uuid().primaryKey().defaultRandom().notNull(),
+    id: uuid().primaryKey().defaultRandom(),
     title: varchar({length: 255}).notNull(),
     authorId: uuid().references(() => User.id).notNull(),
     isDraft: boolean().default(true).notNull(),
     likes: integer().default(0),
     views: integer().default(0),
+    description: text().default("").notNull(),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull(),
 });
@@ -54,12 +57,37 @@ export const chapterRelations = relations(Chapter, ({one, many}) => ({
     pointsOfView: many(PointOfView),
     readChapters: many(UserReadChapter),
 }));
+// personnages
+export const Character = pgTable("characters", {
+    id: uuid().primaryKey().defaultRandom().notNull(),
+    storyId: uuid().references(() => Story.id).notNull(),
+    name: varchar({length: 255}).notNull(),
+    description: text().notNull(),
+    picture: varchar({length: 255}),
+    color: varchar({length: 255}),
+    createdAt: timestamp().defaultNow().notNull(),
+    updatedAt: timestamp().defaultNow().notNull(),
+});
 
-// Table des messages dans chaque chapitre
+// conversations
+export const Conversation = pgTable("conversations", {
+        id: uuid().primaryKey().defaultRandom().notNull(),
+        storyId: uuid().references(() => Story.id).notNull(),
+        chapterId: uuid().references(() => Chapter.id).notNull(),
+        title: varchar({length: 255}).notNull(),
+        createdAt: timestamp().defaultNow().notNull(),
+        updatedAt: timestamp().defaultNow().notNull()
+    }
+);
+
+
+// Table des messages dans chaque conversation
 export const Message = pgTable("messages", {
     id: uuid().primaryKey().defaultRandom().notNull(),
     chapterId: uuid().references(() => Chapter.id).notNull(),
-    senderName: varchar({length: 255}).notNull(),
+    conversationId: uuid().references(() => Conversation.id).notNull(),
+    // sender character
+    senderId: uuid().references(() => Character.id).notNull(),
     content: text().notNull(),
     timestamp: timestamp().notNull(),
     mediaUrl: varchar({length: 255}), // Pour les images dans les messages
@@ -69,11 +97,11 @@ export const messageRelations = relations(Message, ({one}) => ({
     chapter: one(Chapter, {fields: [Message.chapterId], references: [Chapter.id]}),
 }));
 
-// Table pour les points de vue
+// Table pour les points de vue disponibles dans chaque chapitre
 export const PointOfView = pgTable("points_of_view", {
     id: uuid().primaryKey().defaultRandom().notNull(),
     chapterId: uuid().references(() => Chapter.id).notNull(),
-    characterName: varchar({length: 255}).notNull(),
+    characterId: uuid().references(() => Character.id).notNull(),
 });
 
 export const pointOfViewRelations = relations(PointOfView, ({one}) => ({
@@ -123,3 +151,14 @@ export const purchaseRelations = relations(Purchase, ({one}) => ({
     user: one(User, {fields: [Purchase.userId], references: [User.id]}),
     story: one(Story, {fields: [Purchase.storyId], references: [Story.id]}),
 }));
+
+
+// table des reviews
+export const Review = pgTable("reviews", {
+    id: uuid().primaryKey().defaultRandom().notNull(),
+    storyId: uuid().references(() => Story.id).notNull(),
+    userId: uuid().references(() => User.id).notNull(),
+    content: text().notNull(),
+    rating: integer().notNull(),
+    createdAt: timestamp().defaultNow().notNull(),
+});

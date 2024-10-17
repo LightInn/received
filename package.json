@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "studio": "drizzle-kit studio"
+    "dz:pull": "drizzle-kit pull",
+    "dz:push": "drizzle-kit push",
+    "dz:generate": "drizzle-kit generate",
+    "dz:migrate": "drizzle-kit migrate",
+    "dz:studio": "drizzle-kit studio",
+    "dz:seed": "node --loader esbuild-register/loader -r esbuild-register ./src/db/seed.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
@@ -30,14 +35,18 @@
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
     "@types/node": "^20",
     "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "drizzle-kit": "^0.26.2",
+    "esbuild-register": "^3.6.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
     "postcss": "^8",

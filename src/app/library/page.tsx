@@ -10,8 +10,9 @@ import {Navbar} from "@/components/global/navbar";
 
 import {useQuery} from '@tanstack/react-query'
 import {getAllStories} from "@/db/repository/story";
+import Link from "next/link";
 
-// // Mock data for stories
+// Mock data for stories
 // const mockStories = [
 //     { id: 1, title: "The Last Message", views: 15000, chapters: 5, category: "hot" },
 //     { id: 2, title: "Whispers in the Chat", views: 12000, chapters: 3, category: "trending" },
@@ -38,7 +39,10 @@ type Story = {
 export default function LibraryPage() {
 
 
-    const {data, error, isPending, isSuccess} = useQuery({queryKey: ['dbStories'], queryFn: getAllStories})
+    const {data, error, isPending, isSuccess} = useQuery({
+        queryKey: ['dbStories'],
+        queryFn: async () => getAllStories()
+    })
 
     const [searchTerm, setSearchTerm] = useState("")
     const [currentCategory, setCurrentCategory] = useState("all")
@@ -48,9 +52,11 @@ export default function LibraryPage() {
     }
 
     if (error) {
+        console.log("ERROR")
         return <div>Error: {error.message}</div>
     }
     if (isSuccess && data !== undefined) {
+        console.log("BOOOM")
         const mockStories = data;
 
 
@@ -91,9 +97,12 @@ export default function LibraryPage() {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button variant="outline" className="w-full">
+                    <Link
+                        href={`/story/${story.id}`}
+                        // variant="outline"
+                        className="w-full">
                         Read Now <ChevronRight className="ml-2 h-4 w-4"/>
-                    </Button>
+                    </Link>
                 </CardFooter>
             </Card>
         )
@@ -130,7 +139,7 @@ export default function LibraryPage() {
                     <TabsContent value="all" className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                             {filteredStories.map(story => (
-                                <StoryCard key={story.id} story={story}/>
+                                <StoryCard key={story.id} story={story}  />
                             ))}
                         </div>
                     </TabsContent>

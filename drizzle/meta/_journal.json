@@ -15,6 +15,13 @@
       "when": 1729197529498,
       "tag": "0001_milky_post",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729214923573,
+      "tag": "0002_perpetual_stone_men",
+      "breakpoints": true
     }
   ]
 }

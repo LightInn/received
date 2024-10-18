@@ -1,1 +1,0 @@
-ALTER TABLE "stories" ADD COLUMN "category" varchar(255) NOT NULL;

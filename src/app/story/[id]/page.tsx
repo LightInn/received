@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState} from "react"
+import React, {useState} from "react"
 import {useRouter} from "next/navigation"
 import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
@@ -30,7 +30,7 @@ import {useQuery} from "@tanstack/react-query";
 
 // Mock user data
 const userData = {
-    isLoggedIn: true,
+    isLoggedIn: false,
     currentChapter: 2,
     username: "reader123"
 }
@@ -78,6 +78,8 @@ export default function StoryLobbyPage({params}: { params: { id: string } }) {
 
         return (
             <div className="container mx-auto p-4 max-w-4xl">
+
+
                 <Card className="mb-8">
                     <CardHeader>
                         <div className="flex justify-between items-start">
@@ -89,6 +91,12 @@ export default function StoryLobbyPage({params}: { params: { id: string } }) {
                         </div>
                     </CardHeader>
                     <CardContent>
+
+                        {/* image of the story */}
+                        <img src={`https://loremflickr.com/400/200/${storyData.category}`} alt={storyData.title}
+                             className={"w-full h-48 object-cover mb-4"}/>
+
+
                         <p className="text-muted-foreground mb-4">{storyData.description}</p>
                         <div className="flex flex-wrap gap-2 mb-4">
                             {storyData.tags.map((tag, index) => (
@@ -136,7 +144,7 @@ export default function StoryLobbyPage({params}: { params: { id: string } }) {
                 <Tabs defaultValue="chapters">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="chapters">Chapters</TabsTrigger>
-                        <TabsTrigger value="comments">Comments</TabsTrigger>
+                        <TabsTrigger value="comments" disabled={true}>Comments</TabsTrigger>
                     </TabsList>
                     <TabsContent value="chapters">
                         <Card>

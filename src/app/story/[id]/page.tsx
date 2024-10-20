@@ -4,9 +4,9 @@ import React, {useState} from "react";
 import {useRouter} from "next/navigation";
 import {useQuery} from "@tanstack/react-query";
 import {getStoryById} from "@/db/repository/story";
-import StoryHeader from "./StoryHeader";
-import StoryChapters from "./StoryChapters";
-import StoryComments from "./StoryComments";
+import StoryHeader from "../../../components/storyDetails/StoryHeader";
+import StoryChapters from "../../../components/storyDetails/StoryChapters";
+import StoryComments from "../../../components/storyDetails/StoryComments";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 
 // Mock user data

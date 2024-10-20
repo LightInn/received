@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, Eye, BookOpen, Clock } from "lucide-react";
-import StoryProgress from "@/app/story/[id]/StoryProgress";
+import StoryProgress from "@/components/storyDetails/StoryProgress";
 import { Button } from "@/components/ui/button";
 import React from "react";
 

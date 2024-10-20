@@ -37,7 +37,7 @@ const calculateEstimatedReadTime = (chapterCount: number): string => {
 
 
 // Récupère les détails d'une histoire par son ID
-export async function getStoryById(storyId: string): Promise<StoryModel> {
+export async function getStoryById(storyId: string): Promise<StoryModel | null> {
     try {
 
         console.log("start", storyId);

@@ -66,16 +66,12 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "users_username_unique": {
-          "columns": [
-            "username"
-          ],
+          "columns": ["username"],
           "nullsNotDistinct": false,
           "name": "users_username_unique"
         },
         "users_email_unique": {
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "nullsNotDistinct": false,
           "name": "users_email_unique"
         }
@@ -133,12 +129,8 @@
           "tableFrom": "conversations",
           "tableTo": "stories",
           "schemaTo": "public",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -147,12 +139,8 @@
           "tableFrom": "conversations",
           "tableTo": "chapters",
           "schemaTo": "public",
-          "columnsFrom": [
-            "chapterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chapterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -199,12 +187,8 @@
           "tableFrom": "purchases",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -213,12 +197,8 @@
           "tableFrom": "purchases",
           "tableTo": "stories",
           "schemaTo": "public",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -290,12 +270,8 @@
           "tableFrom": "characters",
           "tableTo": "stories",
           "schemaTo": "public",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -359,12 +335,8 @@
           "tableFrom": "messages",
           "tableTo": "chapters",
           "schemaTo": "public",
-          "columnsFrom": [
-            "chapterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chapterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -373,12 +345,8 @@
           "tableFrom": "messages",
           "tableTo": "conversations",
           "schemaTo": "public",
-          "columnsFrom": [
-            "conversationId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["conversationId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -387,12 +355,8 @@
           "tableFrom": "messages",
           "tableTo": "characters",
           "schemaTo": "public",
-          "columnsFrom": [
-            "senderId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["senderId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -474,12 +438,8 @@
           "tableFrom": "stories",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "authorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["authorId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -546,12 +506,8 @@
           "tableFrom": "chapters",
           "tableTo": "stories",
           "schemaTo": "public",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -604,12 +560,8 @@
           "tableFrom": "comments",
           "tableTo": "stories",
           "schemaTo": "public",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -618,12 +570,8 @@
           "tableFrom": "comments",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -663,12 +611,8 @@
           "tableFrom": "points_of_view",
           "tableTo": "chapters",
           "schemaTo": "public",
-          "columnsFrom": [
-            "chapterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chapterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -677,12 +621,8 @@
           "tableFrom": "points_of_view",
           "tableTo": "characters",
           "schemaTo": "public",
-          "columnsFrom": [
-            "characterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["characterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -741,12 +681,8 @@
           "tableFrom": "reviews",
           "tableTo": "stories",
           "schemaTo": "public",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -755,12 +691,8 @@
           "tableFrom": "reviews",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -800,12 +732,8 @@
           "tableFrom": "user_read_chapters",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -814,12 +742,8 @@
           "tableFrom": "user_read_chapters",
           "tableTo": "chapters",
           "schemaTo": "public",
-          "columnsFrom": [
-            "chapterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chapterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -827,10 +751,7 @@
       "compositePrimaryKeys": {
         "user_read_chapters_userId_chapterId_pk": {
           "name": "user_read_chapters_userId_chapterId_pk",
-          "columns": [
-            "userId",
-            "chapterId"
-          ]
+          "columns": ["userId", "chapterId"]
         }
       },
       "uniqueConstraints": {},

@@ -61,12 +61,8 @@
           "name": "chapters_storyId_stories_id_fk",
           "tableFrom": "chapters",
           "tableTo": "stories",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -137,12 +133,8 @@
           "name": "characters_storyId_stories_id_fk",
           "tableFrom": "characters",
           "tableTo": "stories",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -194,12 +186,8 @@
           "name": "comments_storyId_stories_id_fk",
           "tableFrom": "comments",
           "tableTo": "stories",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -207,12 +195,8 @@
           "name": "comments_userId_users_id_fk",
           "tableFrom": "comments",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -271,12 +255,8 @@
           "name": "conversations_storyId_stories_id_fk",
           "tableFrom": "conversations",
           "tableTo": "stories",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -284,12 +264,8 @@
           "name": "conversations_chapterId_chapters_id_fk",
           "tableFrom": "conversations",
           "tableTo": "chapters",
-          "columnsFrom": [
-            "chapterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chapterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -352,12 +328,8 @@
           "name": "messages_chapterId_chapters_id_fk",
           "tableFrom": "messages",
           "tableTo": "chapters",
-          "columnsFrom": [
-            "chapterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chapterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -365,12 +337,8 @@
           "name": "messages_conversationId_conversations_id_fk",
           "tableFrom": "messages",
           "tableTo": "conversations",
-          "columnsFrom": [
-            "conversationId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["conversationId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -378,12 +346,8 @@
           "name": "messages_senderId_characters_id_fk",
           "tableFrom": "messages",
           "tableTo": "characters",
-          "columnsFrom": [
-            "senderId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["senderId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -422,12 +386,8 @@
           "name": "points_of_view_chapterId_chapters_id_fk",
           "tableFrom": "points_of_view",
           "tableTo": "chapters",
-          "columnsFrom": [
-            "chapterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chapterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -435,12 +395,8 @@
           "name": "points_of_view_characterId_characters_id_fk",
           "tableFrom": "points_of_view",
           "tableTo": "characters",
-          "columnsFrom": [
-            "characterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["characterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -486,12 +442,8 @@
           "name": "purchases_userId_users_id_fk",
           "tableFrom": "purchases",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -499,12 +451,8 @@
           "name": "purchases_storyId_stories_id_fk",
           "tableFrom": "purchases",
           "tableTo": "stories",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -562,12 +510,8 @@
           "name": "reviews_storyId_stories_id_fk",
           "tableFrom": "reviews",
           "tableTo": "stories",
-          "columnsFrom": [
-            "storyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["storyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -575,12 +519,8 @@
           "name": "reviews_userId_users_id_fk",
           "tableFrom": "reviews",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -667,12 +607,8 @@
           "name": "stories_authorId_users_id_fk",
           "tableFrom": "stories",
           "tableTo": "users",
-          "columnsFrom": [
-            "authorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["authorId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -745,16 +681,12 @@
         "users_username_unique": {
           "name": "users_username_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "username"
-          ]
+          "columns": ["username"]
         },
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "checkConstraints": {}
@@ -789,12 +721,8 @@
           "name": "user_read_chapters_userId_users_id_fk",
           "tableFrom": "user_read_chapters",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -802,12 +730,8 @@
           "name": "user_read_chapters_chapterId_chapters_id_fk",
           "tableFrom": "user_read_chapters",
           "tableTo": "chapters",
-          "columnsFrom": [
-            "chapterId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chapterId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -815,10 +739,7 @@
       "compositePrimaryKeys": {
         "user_read_chapters_userId_chapterId_pk": {
           "name": "user_read_chapters_userId_chapterId_pk",
-          "columns": [
-            "userId",
-            "chapterId"
-          ]
+          "columns": ["userId", "chapterId"]
         }
       },
       "uniqueConstraints": {},

@@ -45,7 +45,8 @@ export default function StoryLobbyPage({params}: StoryLobbyPageProps) {
             if (!isLoggedIn && chapterNumber > 1) {
                 alert("Please log in to continue reading beyond the first chapter.");
             } else {
-                router.push(`/story/${storyData.id}/chapter/${chapterNumber}`);
+                // router.push(`/story/${storyData.id}/reader/${chapterNumber}`);
+                router.push(`/story/${storyData.id}/reader`);
             }
         };
 

@@ -1,27 +1,27 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import {
-  User,
-  Story,
-  Chapter,
-  Conversation,
-  Character,
-  Message,
-  Comment,
-  PointOfView,
-  Purchase,
-  UserReadChapter,
+  UserSchema,
+  StorySchema,
+  ChapterSchema,
+  ConversationSchema,
+  CharacterSchema,
+  MessageSchema,
+  CommentSchema,
+  PointOfViewSchema,
+  PurchaseSchema,
+  UserReadChapterSchema,
 } from "./schema";
 import { v4 as uuidv4 } from "uuid";
 
 // Initialisation de la base de données
 const db = drizzle(process.env.DATABASE_URL!);
 
-type User = typeof User.$inferInsert;
+type User = typeof UserSchema.$inferInsert;
 
 async function main() {
   // Création d'utilisateurs
-  const user1: User = {
+  const user1: UserSchema = {
     id: uuidv4(),
     username: "JohnDoe",
     email: "john.doe@example.com",
@@ -31,7 +31,7 @@ async function main() {
     age: 19,
   };
 
-  const user2: User = {
+  const user2: UserSchema = {
     id: uuidv4(),
     username: "JaneDoe",
     email: "jane.doe@example.com",
@@ -41,11 +41,11 @@ async function main() {
     age: 15,
   };
 
-  await db.insert(User).values([user1, user2]);
+  await db.insert(UserSchema).values([user1, user2]);
   console.log("Users created!");
 
   // Création d'une histoire
-  const story: typeof Story.$inferInsert = {
+  const story: typeof StorySchema.$inferInsert = {
     id: uuidv4(),
     title: "Une histoire intrigante",
     authorId: user1.id ?? "",
@@ -57,11 +57,11 @@ async function main() {
     category: "marvelous",
   };
 
-  await db.insert(Story).values(story);
+  await db.insert(StorySchema).values(story);
   console.log("Story created!");
 
   // Création de chapitres
-  const chapter1: typeof Chapter.$inferInsert = {
+  const chapter1: typeof ChapterSchema.$inferInsert = {
     id: uuidv4(),
     storyId: story.id ?? "",
     title: "Chapitre 1 : Le début",
@@ -71,7 +71,7 @@ async function main() {
     updatedAt: new Date(),
   };
 
-  const chapter2: typeof Chapter.$inferInsert = {
+  const chapter2: typeof ChapterSchema.$inferInsert = {
     id: uuidv4(),
     storyId: story.id ?? "",
     title: "Chapitre 2 : Le mystère s'épaissit",
@@ -81,29 +81,29 @@ async function main() {
     updatedAt: new Date(),
   };
 
-  await db.insert(Chapter).values([chapter1, chapter2]);
+  await db.insert(ChapterSchema).values([chapter1, chapter2]);
   console.log("Chapters created!");
 
   // conversation
-  const conversation1: typeof Conversation.$inferInsert = {
+  const conversation1: typeof ConversationSchema.$inferInsert = {
     id: uuidv4(),
     title: "Une conversation",
     storyId: story.id ?? "",
     chapterId: chapter1.id ?? "",
   };
 
-  await db.insert(Conversation).values([conversation1]);
+  await db.insert(ConversationSchema).values([conversation1]);
 
-  const characters1: typeof Character.$inferInsert = {
+  const characters1: typeof CharacterSchema.$inferInsert = {
     id: uuidv4(),
     name: "JohnDoe",
     description: "",
     storyId: story.id ?? "",
   };
-  await db.insert(Character).values([characters1]);
+  await db.insert(CharacterSchema).values([characters1]);
 
   // Création de messages
-  const message1: typeof Message.$inferInsert = {
+  const message1: typeof MessageSchema.$inferInsert = {
     conversationId: conversation1.id ?? "",
     senderId: characters1.id ?? "",
     id: uuidv4(),
@@ -112,7 +112,7 @@ async function main() {
     timestamp: new Date(),
   };
 
-  const message2: typeof Message.$inferInsert = {
+  const message2: typeof MessageSchema.$inferInsert = {
     conversationId: conversation1.id ?? "",
     senderId: characters1.id ?? "",
     id: uuidv4(),
@@ -122,11 +122,11 @@ async function main() {
     timestamp: new Date(),
   };
 
-  await db.insert(Message).values([message1, message2]);
+  await db.insert(MessageSchema).values([message1, message2]);
   console.log("Messages created!");
 
   // Création de commentaires
-  const comment1: typeof Comment.$inferInsert = {
+  const comment1: typeof CommentSchema.$inferInsert = {
     id: uuidv4(),
     storyId: story.id ?? "",
     userId: user2.id ?? "",
@@ -134,44 +134,44 @@ async function main() {
     createdAt: new Date(),
   };
 
-  await db.insert(Comment).values(comment1);
+  await db.insert(CommentSchema).values(comment1);
   console.log("Comments created!");
 
   // Création de points de vue
-  const pov1: typeof PointOfView.$inferInsert = {
+  const pov1: typeof PointOfViewSchema.$inferInsert = {
     characterId: characters1.id ?? "",
     id: uuidv4(),
     chapterId: chapter1.id ?? "",
   };
 
-  const pov2: typeof PointOfView.$inferInsert = {
+  const pov2: typeof PointOfViewSchema.$inferInsert = {
     id: uuidv4(),
     chapterId: chapter2.id ?? "",
     characterId: characters1.id ?? "",
   };
 
-  await db.insert(PointOfView).values([pov1, pov2]);
+  await db.insert(PointOfViewSchema).values([pov1, pov2]);
   console.log("Points of View created!");
 
   // Simuler un achat de chapitres
-  const purchase: typeof Purchase.$inferInsert = {
+  const purchase: typeof PurchaseSchema.$inferInsert = {
     id: uuidv4(),
     userId: user1.id ?? "",
     storyId: story.id ?? "",
     purchasedAt: new Date(),
   };
 
-  await db.insert(Purchase).values(purchase);
+  await db.insert(PurchaseSchema).values(purchase);
   console.log("Purchase recorded!");
 
   // Suivi des chapitres lus
-  const userReadChapter: typeof UserReadChapter.$inferInsert = {
+  const userReadChapter: typeof UserReadChapterSchema.$inferInsert = {
     userId: user1.id ?? "",
     chapterId: chapter1.id ?? "",
     readAt: new Date(),
   };
 
-  await db.insert(UserReadChapter).values(userReadChapter);
+  await db.insert(UserReadChapterSchema).values(userReadChapter);
   console.log("User read chapter recorded!");
 }
 

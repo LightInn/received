@@ -21,7 +21,7 @@ type User = typeof UserSchema.$inferInsert;
 
 async function main() {
   // Création d'utilisateurs
-  const user1: UserSchema = {
+  const user1: User = {
     id: uuidv4(),
     username: "JohnDoe",
     email: "john.doe@example.com",
@@ -31,7 +31,7 @@ async function main() {
     age: 19,
   };
 
-  const user2: UserSchema = {
+  const user2: User = {
     id: uuidv4(),
     username: "JaneDoe",
     email: "jane.doe@example.com",
@@ -179,3 +179,4 @@ async function main() {
 main().catch((err) => {
   console.error("Error during seeding:", err);
 });
+

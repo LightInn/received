@@ -1,14 +1,8 @@
-// storyRepository.ts
-
-// Importation des modules nécessaires
 "use server";
 import {db} from '..';
 import {ChapterSchema, ReviewSchema, StorySchema, UserSchema} from "../schema";
 import {eq, sql} from "drizzle-orm";
 import {Story} from "@/models/Story";
-
-
-type StorySelect = typeof StorySchema.$inferSelect;
 
 
 // Fonction utilitaire pour calculer le temps de lecture estimé
@@ -45,7 +39,7 @@ export async function createStory(data: Partial<Story>): Promise<string | null> 
 }
 
 // Récupération d'une histoire par ID
-export async function getStoryById(storyId: string): Promise<Story | null> {
+export async function getStoryById(storyId: string): Promise<Partial<Story> | null> {
     try {
         const storyData = await db
             .select({
@@ -69,9 +63,9 @@ export async function getStoryById(storyId: string): Promise<Story | null> {
                 chapters: sql<number>`COUNT(
                 ${ChapterSchema.id}
                 )`,
-                lastUpdated: sql<Date>`MAX(
-                ${StorySchema.updatedAt}
-                )`,
+                updatedAt: StorySchema.updatedAt,
+                createdAt: StorySchema.createdAt
+
             })
             .from(StorySchema)
             .leftJoin(UserSchema, eq(StorySchema.authorId, UserSchema.id))
@@ -96,7 +90,8 @@ export async function getStoryById(storyId: string): Promise<Story | null> {
             reviews: story.reviews,
             views: story.views,
             chapters: story.chapters,
-            lastUpdated: story.lastUpdated,
+            updatedAt: story.updatedAt,
+            createdAt: story.createdAt,
             estimatedReadTime: calculateEstimatedReadTime(story.chapters)
         };
     } catch (error) {
@@ -139,7 +134,7 @@ export async function deleteStory(storyId: string): Promise<boolean> {
 }
 
 // Récupération des histoires par catégorie
-export async function getStoriesByCategory(category: string): Promise<StorySelect[]> {
+export async function getStoriesByCategory(category: string): Promise<Story[]> {
     try {
         return await db.select().from(StorySchema).where(eq(StorySchema.category, category));
     } catch (error) {
@@ -164,7 +159,7 @@ export async function incrementStoryViews(storyId: string): Promise<void> {
 }
 
 // Récupération de toutes les histoires
-export async function getAllStories(): Promise<StorySelect[]> {
+export async function getAllStories(): Promise<Story[]> {
     try {
         return await db.select().from(StorySchema);
     } catch (error) {

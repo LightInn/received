@@ -1,10 +1,11 @@
 // chapterRepository.ts
 
 "use server";
-import { db } from '..';
-import { ChapterSchema, StorySchema } from "../schema";
-import { sql, eq } from "drizzle-orm";
-import { Chapter } from "@/models/Chapter";
+import {db} from '..';
+import {ChapterSchema} from "../schema";
+import {eq, sql} from "drizzle-orm";
+import {Chapter} from "@/models/Chapter";
+
 
 // Création d'un chapitre
 export async function createChapter(data: Partial<Chapter>): Promise<string | null> {
@@ -17,13 +18,10 @@ export async function createChapter(data: Partial<Chapter>): Promise<string | nu
             .values({
                 title: data.title,
                 storyId: data.storyId,
-                content: data.content,
-                order: data.order,
-                isDraft: data.isDraft ?? true,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             })
-            .returning({ insertedId: ChapterSchema.id }); // Récupère l'ID du chapitre créé
+            .returning({insertedId: ChapterSchema.id}); // Récupère l'ID du chapitre créé
 
         return result[0]?.insertedId;
     } catch (error) {
@@ -33,20 +31,18 @@ export async function createChapter(data: Partial<Chapter>): Promise<string | nu
 }
 
 // Récupération d'un chapitre par ID
-export async function getChapterById(chapterId: string): Promise<Chapter | null> {
+export async function getChapterById(chapterId: string): Promise<Partial<Chapter> | null> {
     try {
-        const chapter = await db
-            .select()
-            .from(ChapterSchema)
-            .where(eq(ChapterSchema.id, chapterId))
-            .single();
+        const chapter = await db.query.ChapterSchema.findFirst(
+            {
+                where: eq(ChapterSchema.id, chapterId)
+            }
+        )
 
         return chapter ? {
             id: chapter.id,
             title: chapter.title,
             storyId: chapter.storyId,
-            content: chapter.content,
-            order: chapter.order,
             isDraft: chapter.isDraft,
             createdAt: chapter.createdAt,
             updatedAt: chapter.updatedAt,
@@ -64,8 +60,6 @@ export async function updateChapter(chapterId: string, data: Partial<Chapter>): 
             .update(ChapterSchema)
             .set({
                 title: data.title,
-                content: data.content,
-                order: data.order,
                 isDraft: data.isDraft,
                 updatedAt: new Date(),
             })
@@ -90,20 +84,18 @@ export async function deleteChapter(chapterId: string): Promise<boolean> {
 }
 
 // Récupération des chapitres d'une histoire donnée
-export async function getChaptersByStoryId(storyId: string): Promise<Chapter[]> {
+export async function getChaptersByStoryId(storyId: string): Promise<Partial<Chapter>[]> {
     try {
         const chapters = await db
             .select()
             .from(ChapterSchema)
             .where(eq(ChapterSchema.storyId, storyId))
-            .orderBy(ChapterSchema.order); // Trie par l'ordre des chapitres
+            .orderBy(ChapterSchema.createdAt); // Trie par l'ordre des chapitres
 
         return chapters.map(chapter => ({
             id: chapter.id,
             title: chapter.title,
             storyId: chapter.storyId,
-            content: chapter.content,
-            order: chapter.order,
             isDraft: chapter.isDraft,
             createdAt: chapter.createdAt,
             updatedAt: chapter.updatedAt,
@@ -115,21 +107,22 @@ export async function getChaptersByStoryId(storyId: string): Promise<Chapter[]> 
 }
 
 // Incrémentation des vues pour un chapitre
-export async function incrementChapterViews(chapterId: string): Promise<void> {
-    try {
-        await db
-            .update(ChapterSchema)
-            .set({
-                views: sql<number>`views + 1`,
-            })
-            .where(eq(ChapterSchema.id, chapterId));
-    } catch (error) {
-        console.error("Error incrementing chapter views:", error);
-    }
-}
+// export async function incrementChapterViews(chapterId: string): Promise<void> {
+//     try {
+//         await db
+//             .update(ChapterSchema)
+//             .set({
+//                 views: sql<number>`views
+//                 + 1`,
+//             })
+//             .where(eq(ChapterSchema.id, chapterId));
+//     } catch (error) {
+//         console.error("Error incrementing chapter views:", error);
+//     }
+// }
 
 // Récupération de tous les chapitres (sans filtre)
-export async function getAllChapters(): Promise<Chapter[]> {
+export async function getAllChapters(): Promise<Partial<Chapter>[]> {
     try {
         const chapters = await db.select().from(ChapterSchema);
 
@@ -137,8 +130,6 @@ export async function getAllChapters(): Promise<Chapter[]> {
             id: chapter.id,
             title: chapter.title,
             storyId: chapter.storyId,
-            content: chapter.content,
-            order: chapter.order,
             isDraft: chapter.isDraft,
             createdAt: chapter.createdAt,
             updatedAt: chapter.updatedAt,

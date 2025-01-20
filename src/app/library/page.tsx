@@ -21,7 +21,7 @@ import {
 import { Navbar } from "@/components/global/navbar";
 
 import { useQuery } from "@tanstack/react-query";
-import { getAllStories } from "@/db/repository/story";
+import { getAllStories } from "@/db/repository/story.repository";
 import Link from "next/link";
 
 // Mock data for stories

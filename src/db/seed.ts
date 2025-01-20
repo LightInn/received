@@ -179,4 +179,3 @@ async function main() {
 main().catch((err) => {
   console.error("Error during seeding:", err);
 });
-

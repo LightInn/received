@@ -1,220 +1,162 @@
 "use server";
-import { db } from '..';
-import { UserSchema, StorySchema, ReviewSchema } from "../schema";
-import { sql, eq } from "drizzle-orm";
+import pb from "@/repository/_pb";
 import { User } from "@/models/User";
-
-
-
-
-
-
-import PocketBase from 'pocketbase';
-
-const pb = new PocketBase('https://pocketbase-received.lightin.io');
-
-...
-
-// fetch a paginated records list
-const resultList = await pb.collection('users').getList(1, 50, {
-    filter: 'someField1 != someField2',
-});
-
-// you can also fetch all records at once via getFullList
-const records = await pb.collection('users').getFullList({
-    sort: '-someField',
-});
-
-// or fetch only the first record that matches the specified filter
-const record = await pb.collection('users').getFirstListItem('someField="test"', {
-    expand: 'relField1,relField2.subRelField',
-});
-
-
-
-
-
-
-import PocketBase from 'pocketbase';
-
-const pb = new PocketBase('https://pocketbase-received.lightin.io');
-
-...
-
-// example create data
-const data = {
-    "username": "test",
-    "clerk_id": "test",
-    "onborded": true
-};
-
-const record = await pb.collection('users').create(data);
-
-
-
-
-
 
 // Création d'un utilisateur
 export async function createUser(data: Partial<User>): Promise<string | null> {
-    try {
-        if (!data.username) throw new Error("Username is required");
-        if (!data.email) throw new Error("Email is required");
+  try {
+    if (!data.username) throw new Error("Username is required");
+    if (!data.email) throw new Error("Email is required");
 
-        const result = await db
-            .insert(UserSchema)
-            .values({
-                username: data.username,
-                email: data.email,
-                passwordHash: data.passwordHash,
-                bio: data.bio,
-                avatarUrl: data.avatarUrl,
-                createdAt: new Date(),
-            })
-            .returning({ insertedId: UserSchema.id }); // Récupère l'ID de l'utilisateur créé
+    const record = await pb.collection("users").create({
+      username: data.username,
+      email: data.email,
+      clerk_id: data.clerk_id, // Assuming clerk_id is used as the main ID
+      bio: data.bio,
+      avatarUrl: data.avatarUrl,
+      onborded: false, // Default value
+    });
 
-        return result[0]?.insertedId;
-    } catch (error) {
-        console.error("Error creating user:", error);
-        return null;
-    }
+    return record.id;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return null;
+  }
 }
 
-// Récupération d'un utilisateur par ID
-export async function getUserById(userId: string): Promise<User | null> {
-    try {
-        const user = await db
-            .select()
-            .from(UserSchema)
-            .where(eq(UserSchema.id, userId))
-            .single();
-
-        return user ? {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            bio: user.bio,
-            avatarUrl: user.avatarUrl,
-            createdAt: user.createdAt,
-        } : null;
-    } catch (error) {
-        console.error("Error fetching user by ID:", error);
-        return null;
-    }
-}
-
-// Mise à jour d'un utilisateur
-export async function updateUser(userId: string, data: Partial<User>): Promise<boolean> {
-    try {
-        const result = await db
-            .update(UserSchema)
-            .set({
-                username: data.username,
-                email: data.email,
-                bio: data.bio,
-                avatarUrl: data.avatarUrl,
-                updatedAt: new Date(),
-            })
-            .where(eq(UserSchema.id, userId));
-
-        return result.rowCount == null ? false : result.rowCount > 0;
-    } catch (error) {
-        console.error("Error updating user:", error);
-        return false;
-    }
-}
-
-// Suppression d'un utilisateur
-export async function deleteUser(userId: string): Promise<boolean> {
-    try {
-        const result = await db.delete(UserSchema).where(eq(UserSchema.id, userId));
-        return result.rowCount == null ? false : result.rowCount > 0;
-    } catch (error) {
-        console.error("Error deleting user:", error);
-        return false;
-    }
-}
-
-// Récupération des histoires écrites par un utilisateur
-export async function getStoriesByUser(userId: string): Promise<any[]> {
-    try {
-        const stories = await db
-            .select({
-                id: StorySchema.id,
-                title: StorySchema.title,
-                description: StorySchema.description,
-                createdAt: StorySchema.createdAt,
-                views: StorySchema.views,
-            })
-            .from(StorySchema)
-            .where(eq(StorySchema.authorId, userId));
-
-        return stories;
-    } catch (error) {
-        console.error("Error fetching stories by user:", error);
-        return [];
-    }
-}
-
-// Récupération des reviews laissées par un utilisateur
-export async function getReviewsByUser(userId: string): Promise<any[]> {
-    try {
-        const reviews = await db
-            .select({
-                id: ReviewSchema.id,
-                storyId: ReviewSchema.storyId,
-                rating: ReviewSchema.rating,
-                comment: ReviewSchema.comment,
-                createdAt: ReviewSchema.createdAt,
-            })
-            .from(ReviewSchema)
-            .where(eq(ReviewSchema.userId, userId));
-
-        return reviews;
-    } catch (error) {
-        console.error("Error fetching reviews by user:", error);
-        return [];
-    }
-}
-
-// Récupération de tous les utilisateurs
-export async function getAllUsers(): Promise<User[]> {
-    try {
-        const users = await db.select().from(UserSchema);
-
-        return users.map(user => ({
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            bio: user.bio,
-            avatarUrl: user.avatarUrl,
-            createdAt: user.createdAt,
-        }));
-    } catch (error) {
-        console.error("Error fetching all users:", error);
-        return [];
-    }
-}
-
-// Récupération d'un utilisateur par email
-export async function getUserByEmail(email: string): Promise<User | null> {
-    try {
-        const user = await db
-            .select()
-            .from(UserSchema)
-            .where(eq(UserSchema.email, email))
-            .single();
-
-        return user ? {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            bio: user.bio,
-            avatarUrl: user.avatarUrl,
-            createdAt: user.createdAt,
-        } : null;
-    } catch (error) {
-        console.error("Error fetching user by email:", error);
-        return null;
-    }
-}
+//
+//
+// // Récupération d'un utilisateur par ID
+// export async function getUserById(userId: string): Promise<User | null> {
+//     try {
+//         const record = await pb.collection('users').getOne(userId);
+//
+//         return record ? {
+//             id: record.id,
+//             username: record.username,
+//             email: record.email,
+//             bio: record.bio,
+//             avatarUrl: record.avatarUrl,
+//             createdAt: new Date(record.created)
+//         } : null;
+//     } catch (error) {
+//         console.error("Error fetching user by ID:", error);
+//         return null;
+//     }
+// }
+//
+// // Mise à jour d'un utilisateur
+// export async function updateUser(
+//     userId: string,
+//     data: Partial<User>
+// ): Promise<boolean> {
+//     try {
+//         const record = await pb.collection('users').update(userId, {
+//             username: data.username,
+//             email: data.email,
+//             bio: data.bio,
+//             avatarUrl: data.avatarUrl
+//         });
+//
+//         return !!record;
+//     } catch (error) {
+//         console.error("Error updating user:", error);
+//         return false;
+//     }
+// }
+//
+// // Suppression d'un utilisateur
+// export async function deleteUser(userId: string): Promise<boolean> {
+//     try {
+//         await pb.collection('users').delete(userId);
+//         return true;
+//     } catch (error) {
+//         console.error("Error deleting user:", error);
+//         return false;
+//     }
+// }
+//
+// // Récupération des histoires écrites par un utilisateur
+// export async function getStoriesByUser(userId: string): Promise<any[]> {
+//     try {
+//         const records = await pb.collection('stories').getFullList({
+//             filter: `author_id = "${userId}"`,
+//             sort: '-created'
+//         });
+//
+//         return records.map(record => ({
+//             id: record.id,
+//             title: record.title,
+//             description: record.description,
+//             createdAt: new Date(record.created),
+//             views: record.views
+//         }));
+//     } catch (error) {
+//         console.error("Error fetching stories by user:", error);
+//         return [];
+//     }
+// }
+//
+// // Récupération des reviews laissées par un utilisateur
+// export async function getReviewsByUser(userId: string): Promise<any[]> {
+//     try {
+//         const records = await pb.collection('reviews').getFullList({
+//             filter: `user_id = "${userId}"`,
+//             sort: '-created'
+//         });
+//
+//         return records.map(record => ({
+//             id: record.id,
+//             storyId: record.story_id,
+//             rating: record.rating,
+//             comment: record.comment,
+//             createdAt: new Date(record.created)
+//         }));
+//     } catch (error) {
+//         console.error("Error fetching reviews by user:", error);
+//         return [];
+//     }
+// }
+//
+// // Récupération de tous les utilisateurs
+// export async function getAllUsers(): Promise<User[]> {
+//     try {
+//         const records = await pb.collection('users').getFullList({
+//             sort: 'username'
+//         });
+//
+//         return records.map(record => ({
+//             id: record.id,
+//             username: record.username,
+//             clerk_id: record.clerk_id,
+//             email: record.email,
+//             onboarded: record.onboarded,
+//             updatedAt: new Date(record.updated),
+//             bio: record.bio,
+//             avatarUrl: record.avatarUrl,
+//             createdAt: new Date(record.created)
+//         }));
+//     } catch (error) {
+//         console.error("Error fetching all users:", error);
+//         return [];
+//     }
+// }
+//
+// // Récupération d'un utilisateur par email
+// export async function getUserByEmail(email: string): Promise<User | null> {
+//     try {
+//         const records = await pb.collection('users').getFirstListItem(`email = "${email}"`);
+//
+//         return records ? {
+//             id: records.id,
+//             username: records.username,
+//             email: records.email,
+//             bio: records.bio,
+//             avatarUrl: records.avatarUrl,
+//             createdAt: new Date(records.created)
+//         } : null;
+//     } catch (error) {
+//         console.error("Error fetching user by email:", error);
+//         return null;
+//     }
+// }

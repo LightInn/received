@@ -60,7 +60,7 @@ export default function StoryHeader({
         />
         <p className="text-muted-foreground mb-4">{storyData.description}</p>
         <div className="flex flex-wrap gap-2 mb-4">
-          {storyData.tags.map((tag, index) => (
+          {storyData.tags?.map((tag, index) => (
             <Badge key={index} variant="outline">
               {tag}
             </Badge>

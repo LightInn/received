@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {use, useState} from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getStoryById } from "@/repository/story.repository";
@@ -17,14 +17,16 @@ const userData = {
 };
 
 type StoryLobbyPageProps = {
-  params: {
+
     id: string;
-  };
+
 };
 
-export default function StoryLobbyPage({ params }: StoryLobbyPageProps) {
+export default function StoryLobbyPage({ params }: {params: Promise<StoryLobbyPageProps>}) {
   const [isLoggedIn, setIsLoggedIn] = useState(userData.isLoggedIn);
   const router = useRouter();
+
+  const { id } = use(params);
 
   // Fetch story data with React Query
   const {
@@ -33,8 +35,8 @@ export default function StoryLobbyPage({ params }: StoryLobbyPageProps) {
     isLoading,
     isSuccess,
   } = useQuery({
-    queryKey: ["dbStory", params.id],
-    queryFn: async () => getStoryById(params.id),
+    queryKey: ["dbStory", id],
+    queryFn: async () => getStoryById(id),
   });
 
   if (isLoading) {

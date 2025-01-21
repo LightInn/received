@@ -1,18 +1,18 @@
 "use server";
-import pb from "@/repository/_pb";
 import { User } from "@/models/User";
+import pb from "@/repository/_pb";
 
 // Création d'un utilisateur
-export async function createUser(data: Partial<User>): Promise<string | null> {
+export async function createUser(data: Partial<User>): Promise<null | string> {
   try {
     if (!data.username) throw new Error("Username is required");
     if (!data.email) throw new Error("Email is required");
 
     const record = await pb.collection("users").create({
-      username: data.username,
-      email: data.email,
       clerk_id: data.clerk_id, // Assuming clerk_id is used as the main ID
+      email: data.email,
       onboarded: false, // Default value
+      username: data.username,
     });
 
     return record.id;

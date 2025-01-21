@@ -1,19 +1,19 @@
 export interface Story {
-  estimatedReadTime?: string; // Calculé en fonction des chapitres
   author?: string;
-  rating?: number;
-  reviews?: number;
-  chapters?: number;
+  category: string;
+  chaptersNumber?: number;
+  created: string;
+  description?: string;
   //   ----
 
-  id: string;
-  title: string;
-  description?: string;
-  category: string;
-  tags: string;
-  likes: number;
-  views: number;
   draft: boolean;
-  created: string;
+  estimatedReadTime?: string; // Calculé en fonction des chapitres
+  id: string;
+  likes: number;
+  rating?: number;
+  reviews?: number;
+  tags: string[];
+  title: string;
   updated: string;
+  views: number;
 }

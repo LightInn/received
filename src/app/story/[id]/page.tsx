@@ -1,28 +1,31 @@
 "use client";
 
-import React, {use, useState} from "react";
-import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getStoryById } from "@/repository/story.repository";
-import StoryHeader from "../../../components/storyDetails/StoryHeader";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import React, { use, useState } from "react";
+
 import StoryChapters from "../../../components/storyDetails/StoryChapters";
 import StoryComments from "../../../components/storyDetails/StoryComments";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import StoryHeader from "../../../components/storyDetails/StoryHeader";
 
 // Mock user data
 const userData = {
-  isLoggedIn: true,
   currentChapter: 2,
+  isLoggedIn: true,
   username: "reader123",
 };
 
 type StoryLobbyPageProps = {
-
-    id: string;
-
+  id: string;
 };
 
-export default function StoryLobbyPage({ params }: {params: Promise<StoryLobbyPageProps>}) {
+export default function StoryLobbyPage({
+  params,
+}: {
+  params: Promise<StoryLobbyPageProps>;
+}) {
   const [isLoggedIn, setIsLoggedIn] = useState(userData.isLoggedIn);
   const router = useRouter();
 
@@ -35,8 +38,8 @@ export default function StoryLobbyPage({ params }: {params: Promise<StoryLobbyPa
     isLoading,
     isSuccess,
   } = useQuery({
-    queryKey: ["dbStory", id],
     queryFn: async () => getStoryById(id),
+    queryKey: ["dbStory", id],
   });
 
   if (isLoading) {
@@ -65,25 +68,25 @@ export default function StoryLobbyPage({ params }: {params: Promise<StoryLobbyPa
     return (
       <div className="container mx-auto p-4 max-w-4xl">
         <StoryHeader
-          storyData={storyData}
-          userData={userData}
           handleLogin={handleLogin}
           handleReadChapter={handleReadChapter}
+          storyData={storyData}
+          userData={userData}
         />
 
         <Tabs defaultValue="chapters">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="chapters">Chapters</TabsTrigger>
-            <TabsTrigger value="comments" disabled={true}>
+            <TabsTrigger disabled={true} value="comments">
               Comments
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="chapters">
             <StoryChapters
-              chapters={storyData.chapters}
-              onReadChapter={handleReadChapter}
+              chapters={storyData.chaptersNumber}
               isLoggedIn={isLoggedIn}
+              onReadChapter={handleReadChapter}
             />
           </TabsContent>
           <TabsContent value="comments">

@@ -1,15 +1,15 @@
 import { Chapter } from "@/models/Chapter";
-import { Conversation } from "@/models/conversation";
 import { Character } from "@/models/character";
+import { Conversation } from "@/models/conversation";
 
 export interface Message {
-  id: string;
   chapter: Chapter;
-  conversation: Conversation;
-  sender: Character;
   content: string;
-  datetime: string;
-  media: string;
+  conversation: Conversation;
   created: string;
+  datetime: string;
+  id: string;
+  media: string;
+  sender: Character;
   updated: string;
 }

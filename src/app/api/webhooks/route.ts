@@ -1,7 +1,7 @@
-import { Webhook } from "svix";
-import { headers } from "next/headers";
-import { WebhookEvent } from "@clerk/nextjs/server";
 import { usersWebhook } from "@/app/api/webhooks/users.webhook";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { headers } from "next/headers";
+import { Webhook } from "svix";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -38,8 +38,8 @@ export async function POST(req: Request) {
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
-      "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
+      "svix-timestamp": svix_timestamp,
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error: Could not verify webhook:", err);

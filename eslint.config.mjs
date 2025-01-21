@@ -4,7 +4,7 @@ import pluginNext from "@next/eslint-plugin-next";
 import parser from "@typescript-eslint/parser";
 
 export default [
-  perfectionist.configs["recommended-line-length"],
+  perfectionist.configs["recommended-natural"],
   eslintPluginPrettierRecommended,
   {
     languageOptions: {

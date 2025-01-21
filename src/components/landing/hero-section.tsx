@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export function HeroSection() {
   return (
@@ -24,7 +24,7 @@ export function HeroSection() {
             ¹As of the quarter ended June 30, 2024
           </p>
           <div className="flex gap-4">
-            <Button size="lg" className="bg-[#3195b3] hover:bg-[#3195b3]/90">
+            <Button className="bg-[#3195b3] hover:bg-[#3195b3]/90" size="lg">
               Start Reading
             </Button>
             <Button size="lg" variant="outline">
@@ -34,11 +34,11 @@ export function HeroSection() {
         </div>
         <div className="relative">
           <Image
-            src="/landing/hero-devices.png"
             alt="Received platform preview"
-            width={800}
-            height={600}
             className="relative z-10"
+            height={600}
+            src="/landing/hero-devices.png"
+            width={800}
           />
         </div>
       </div>

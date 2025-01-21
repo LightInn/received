@@ -1,45 +1,35 @@
+import StoryProgress from "@/components/storyDetails/StoryProgress";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardHeader,
   CardContent,
-  CardFooter,
-  CardTitle,
   CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Star, Eye, BookOpen, Clock } from "lucide-react";
-import StoryProgress from "@/components/storyDetails/StoryProgress";
-import { Button } from "@/components/ui/button";
+import { Story } from "@/models/Story";
+import { BookOpen, Clock, Eye, Star } from "lucide-react";
 import React from "react";
 
 type StoryHeaderProps = {
-  storyData: {
-    title: string;
-    author: string;
-    category: string;
-    description: string;
-    tags: string[];
-    rating: number;
-    reviews: number;
-    views: number;
-    chapters: number;
-    estimatedReadTime: string;
-  };
+  handleLogin: () => void;
+  handleReadChapter: (chapterNumber: number) => void;
+
+  storyData: Story;
   userData: {
-    isLoggedIn: boolean;
     currentChapter: number;
+    isLoggedIn: boolean;
     username: string;
   };
-
-  handleReadChapter: (chapterNumber: number) => void;
-  handleLogin: () => void;
 };
 
 export default function StoryHeader({
+  handleLogin,
+  handleReadChapter,
   storyData,
   userData,
-  handleReadChapter,
-  handleLogin,
 }: StoryHeaderProps) {
   return (
     <Card className="mb-8">
@@ -54,9 +44,9 @@ export default function StoryHeader({
       </CardHeader>
       <CardContent>
         <img
-          src={`https://loremflickr.com/400/200/${storyData.category}`}
           alt={storyData.title}
           className={"w-full h-48 object-cover mb-4"}
+          src={`https://loremflickr.com/400/200/${storyData.category}`}
         />
         <p className="text-muted-foreground mb-4">{storyData.description}</p>
         <div className="flex flex-wrap gap-2 mb-4">
@@ -105,7 +95,7 @@ export default function StoryHeader({
             {userData.isLoggedIn ? "Continue Reading" : "Start Reading"}
           </Button>
           {!userData.isLoggedIn && (
-            <Button variant="outline" onClick={handleLogin}>
+            <Button onClick={handleLogin} variant="outline">
               Log In
             </Button>
           )}

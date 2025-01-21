@@ -1,4 +1,4 @@
-import { Tv, Film, BookOpen } from "lucide-react";
+import { BookOpen, Film, Tv } from "lucide-react";
 
 export function FeaturesSection() {
   return (

@@ -1,11 +1,11 @@
-import { Story } from "@/models/Story";
 import { Chapter } from "@/models/Chapter";
+import { Story } from "@/models/Story";
 
 export interface Conversation {
+  chapter: Chapter;
+  created: string;
   id: string;
   story: Story;
-  chapter: Chapter;
   title: string;
-  created: string;
   updated: string;
 }

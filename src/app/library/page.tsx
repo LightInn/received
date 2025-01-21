@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { NavBar } from "@/components/global/navbar";
 import {
   Card,
   CardContent,
@@ -9,21 +8,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Flame,
-  TrendingUp,
-  Sparkles,
-  BookOpen,
-  Eye,
-  ChevronRight,
-} from "lucide-react";
-
-import { useQuery } from "@tanstack/react-query";
+import { Story } from "@/models/Story";
 import { getAllPublishedStories } from "@/repository/story.repository";
+import { useQuery } from "@tanstack/react-query";
+import {
+  BookOpen,
+  ChevronRight,
+  Eye,
+  Flame,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
 import Link from "next/link";
-import { NavBar } from "@/components/global/navbar";
-import {Story} from "@/models/Story";
+import React, { useState } from "react";
 
 // Mock data for stories
 // const mockStories = [
@@ -41,12 +40,10 @@ import {Story} from "@/models/Story";
 //     { id: 12, title: "Voicemail from the Future", views: 5500, chapters: 2, category: "new" },
 // ]
 
-
-
 export default function LibraryPage() {
   const { data, error, isPending, isSuccess } = useQuery({
-    queryKey: ["dbStories"],
     queryFn: async () => getAllPublishedStories(),
+    queryKey: ["dbStories"],
   });
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -74,10 +71,10 @@ export default function LibraryPage() {
       switch (category) {
         case "hot":
           return <Flame className="h-4 w-4 text-red-500" />;
-        case "trending":
-          return <TrendingUp className="h-4 w-4 text-blue-500" />;
         case "new":
           return <Sparkles className="h-4 w-4 text-yellow-500" />;
+        case "trending":
+          return <TrendingUp className="h-4 w-4 text-blue-500" />;
         default:
           return null;
       }
@@ -103,9 +100,9 @@ export default function LibraryPage() {
         </CardContent>
         <CardFooter>
           <Link
-            href={`/story/${story.id}`}
             // variant="outline"
             className="w-full"
+            href={`/story/${story.id}`}
           >
             Read Now <ChevronRight className="ml-2 h-4 w-4" />
           </Link>
@@ -119,16 +116,16 @@ export default function LibraryPage() {
         <h1 className="text-3xl font-bold mb-6">Discover Stories</h1>
         <div className="mb-6">
           <Input
-            type="search"
-            placeholder="Search stories..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
             className="max-w-md"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search stories..."
+            type="search"
+            value={searchTerm}
           />
         </div>
         <Tabs
-          defaultValue="all"
           className="space-y-6"
+          defaultValue="all"
           onValueChange={setCurrentCategory}
         >
           <TabsList>
@@ -146,14 +143,14 @@ export default function LibraryPage() {
               New
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="all" className="space-y-4">
+          <TabsContent className="space-y-4" value="all">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredStories.map((story) => (
                 <StoryCard key={story.id} story={story} />
               ))}
             </div>
           </TabsContent>
-          <TabsContent value="hot" className="space-y-4">
+          <TabsContent className="space-y-4" value="hot">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredStories
                 .filter((story) => story.category === "hot")
@@ -162,7 +159,7 @@ export default function LibraryPage() {
                 ))}
             </div>
           </TabsContent>
-          <TabsContent value="trending" className="space-y-4">
+          <TabsContent className="space-y-4" value="trending">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredStories
                 .filter((story) => story.category === "trending")
@@ -171,7 +168,7 @@ export default function LibraryPage() {
                 ))}
             </div>
           </TabsContent>
-          <TabsContent value="new" className="space-y-4">
+          <TabsContent className="space-y-4" value="new">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredStories
                 .filter((story) => story.category === "new")

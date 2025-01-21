@@ -1,16 +1,13 @@
-import PocketBase from 'pocketbase';
-
+import PocketBase from "pocketbase";
 
 function pocketbaseClientInit(): PocketBase {
+  const token = process.env.POCKETBASE_TOKEN ?? "";
 
-    const token = process.env.POCKETBASE_TOKEN ?? '';
+  const pb = new PocketBase("https://pocketbase-received.lightin.io");
 
-    const pb = new PocketBase('https://pocketbase-received.lightin.io');
+  pb.authStore.save(token, null);
 
-    pb.authStore.save(token, null);
-
-    return pb;
+  return pb;
 }
-
 
 export default pocketbaseClientInit;

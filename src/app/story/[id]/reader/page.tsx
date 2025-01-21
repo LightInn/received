@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -16,11 +16,10 @@ import {
   Phone,
   Settings,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
 // Mock data for the story
 const storyData = {
-  title: "The Last Message",
   chapters: [
     { id: "1", title: "The Beginning" },
     { id: "2", title: "The Mystery Unfolds" },
@@ -38,44 +37,44 @@ const storyData = {
     "1": [
       {
         id: "1",
-        with: "Bob",
         lastMessage: "I'm not sure. He was supposed to meet me an hour ago.",
         timestamp: "10:07",
+        with: "Bob",
       },
       {
         id: "2",
-        with: "Charlie",
         lastMessage: "Charlie! I was worried. What happened?",
         timestamp: "10:22",
+        with: "Charlie",
       },
     ],
     "2": [
       {
         id: "3",
-        with: "Alice",
         lastMessage: "No, I haven't. Is everything okay?",
         timestamp: "10:05",
+        with: "Alice",
       },
       {
         id: "4",
-        with: "Charlie",
         lastMessage: "Charlie, where are you? Alice is looking for you.",
         timestamp: "10:10",
+        with: "Charlie",
       },
     ],
     "3": [
       {
         id: "5",
-        with: "Bob",
         lastMessage:
           "I'm sorry, I got caught up in something. I'll call her now.",
         timestamp: "10:15",
+        with: "Bob",
       },
       {
         id: "6",
-        with: "Alice",
         lastMessage: "I'll explain everything when I see you. It's important.",
         timestamp: "10:25",
+        with: "Alice",
       },
     ],
   },
@@ -83,41 +82,41 @@ const storyData = {
     "1": {
       Bob: [
         {
+          content: "Hey Bob, have you heard from Charlie?",
           id: "1",
           sender: "Alice",
-          content: "Hey Bob, have you heard from Charlie?",
           timestamp: "10:00",
         },
         {
+          content: "No, I haven't. Is everything okay?",
           id: "2",
           sender: "Bob",
-          content: "No, I haven't. Is everything okay?",
           timestamp: "10:05",
         },
         {
+          content: "I'm not sure. He was supposed to meet me an hour ago.",
           id: "3",
           sender: "Alice",
-          content: "I'm not sure. He was supposed to meet me an hour ago.",
           timestamp: "10:07",
         },
       ],
       Charlie: [
         {
+          content: "Alice, I'm so sorry. I'm on my way now.",
           id: "6",
           sender: "Charlie",
-          content: "Alice, I'm so sorry. I'm on my way now.",
           timestamp: "10:20",
         },
         {
+          content: "Charlie! I was worried. What happened?",
           id: "7",
           sender: "Alice",
-          content: "Charlie! I was worried. What happened?",
           timestamp: "10:22",
         },
         {
+          content: "I'll explain everything when I see you. It's important.",
           id: "8",
           sender: "Charlie",
-          content: "I'll explain everything when I see you. It's important.",
           timestamp: "10:25",
         },
       ],
@@ -125,96 +124,97 @@ const storyData = {
     "2": {
       Alice: [
         {
+          content: "Hey Bob, have you heard from Charlie?",
           id: "1",
           sender: "Alice",
-          content: "Hey Bob, have you heard from Charlie?",
           timestamp: "10:00",
         },
         {
+          content: "No, I haven't. Is everything okay?",
           id: "2",
           sender: "Bob",
-          content: "No, I haven't. Is everything okay?",
           timestamp: "10:05",
         },
         {
+          content: "I'm not sure. He was supposed to meet me an hour ago.",
           id: "3",
           sender: "Alice",
-          content: "I'm not sure. He was supposed to meet me an hour ago.",
           timestamp: "10:07",
         },
       ],
       Charlie: [
         {
+          content: "Charlie, where are you? Alice is looking for you.",
           id: "4",
           sender: "Bob",
-          content: "Charlie, where are you? Alice is looking for you.",
           timestamp: "10:10",
         },
         {
-          id: "5",
-          sender: "Charlie",
           content:
             "I'm sorry, I got caught up in something. I'll call her now.",
+          id: "5",
+          sender: "Charlie",
           timestamp: "10:15",
         },
       ],
     },
     "3": {
-      Bob: [
-        {
-          id: "4",
-          sender: "Bob",
-          content: "Charlie, where are you? Alice is looking for you.",
-          timestamp: "10:10",
-        },
-        {
-          id: "5",
-          sender: "Charlie",
-          content:
-            "I'm sorry, I got caught up in something. I'll call her now.",
-          timestamp: "10:15",
-        },
-      ],
       Alice: [
         {
+          content: "Alice, I'm so sorry. I'm on my way now.",
           id: "6",
           sender: "Charlie",
-          content: "Alice, I'm so sorry. I'm on my way now.",
           timestamp: "10:20",
         },
         {
+          content: "Charlie! I was worried. What happened?",
           id: "7",
           sender: "Alice",
-          content: "Charlie! I was worried. What happened?",
           timestamp: "10:22",
         },
         {
+          content: "I'll explain everything when I see you. It's important.",
           id: "8",
           sender: "Charlie",
-          content: "I'll explain everything when I see you. It's important.",
           timestamp: "10:25",
+        },
+      ],
+      Bob: [
+        {
+          content: "Charlie, where are you? Alice is looking for you.",
+          id: "4",
+          sender: "Bob",
+          timestamp: "10:10",
+        },
+        {
+          content:
+            "I'm sorry, I got caught up in something. I'll call her now.",
+          id: "5",
+          sender: "Charlie",
+          timestamp: "10:15",
         },
       ],
     },
   },
+  title: "The Last Message",
 };
 
 const apps = [
-  { id: "chapters", name: "Chapters", icon: BookOpen },
+  { icon: BookOpen, id: "chapters", name: "Chapters" },
   {
+    icon: MessageCircle,
     id: "messages",
     name: "Messages",
-    icon: MessageCircle,
   },
-  { id: "camera", name: "Camera", icon: Camera },
-  { id: "phone", name: "Phone", icon: Phone },
+  { icon: Camera, id: "camera", name: "Camera" },
+  { icon: Phone, id: "phone", name: "Phone" },
   {
+    icon: Calendar,
     id: "calendar",
     name: "Calendar",
-    icon: Calendar,
   },
-  { id: "music", name: "Music", icon: Music },
-  { id: "settings", name: "Settings", icon: Settings },
+  { icon: Music, id: "music", name: "Music" },
+  { icon: Settings, id: "settings", name: "Settings" },
 ];
 
 export default function StoryReaderComponent() {
@@ -224,9 +224,9 @@ export default function StoryReaderComponent() {
   const [currentCharacter, setCurrentCharacter] = useState(
     storyData.characters[0].id,
   );
-  const [selectedApp, setSelectedApp] = useState<string | null>(null);
+  const [selectedApp, setSelectedApp] = useState<null | string>(null);
   const [selectedConversation, setSelectedConversation] = useState<
-    string | null
+    null | string
   >(null);
 
   const handleAppSelect = (appId: string) => {
@@ -259,10 +259,10 @@ export default function StoryReaderComponent() {
     <div className="px-24 grid grid-cols-3 gap-4 p-4">
       {apps.map((app) => (
         <Button
-          key={app.id}
-          variant="ghost"
           className="flex flex-col items-center justify-center h-24"
+          key={app.id}
           onClick={() => handleAppSelect(app.id)}
+          variant="ghost"
         >
           <app.icon className="h-8 w-8 mb-2" />
           <span className="text-xs">{app.name}</span>
@@ -278,8 +278,8 @@ export default function StoryReaderComponent() {
           {storyData.messages[currentCharacter][selectedConversation].map(
             (message) => (
               <Card
-                key={message.id}
                 className={`max-w-[80%] ${message.sender === storyData.characters.find((c) => c.id === currentCharacter)?.name ? "ml-auto bg-blue-500 text-white" : "mr-auto bg-gray-200 dark:bg-gray-700"}`}
+                key={message.id}
               >
                 <CardContent className="p-3">
                   <p className="text-sm font-semibold">{message.sender}</p>
@@ -296,8 +296,8 @@ export default function StoryReaderComponent() {
         <div className="p-4 space-y-4">
           {storyData.conversations[currentCharacter].map((conversation) => (
             <Card
-              key={conversation.id}
               className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              key={conversation.id}
               onClick={() => handleConversationSelect(conversation.with)}
             >
               <CardContent className="p-4">
@@ -325,8 +325,8 @@ export default function StoryReaderComponent() {
       <div className="p-4 space-y-4">
         {storyData.chapters.map((chapter) => (
           <Card
-            key={chapter.id}
             className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            key={chapter.id}
             onClick={() => handleChapterSelect(chapter.id)}
           >
             <CardContent className="p-4">
@@ -345,10 +345,10 @@ export default function StoryReaderComponent() {
 
   const renderAppContent = () => {
     switch (selectedApp) {
-      case "messages":
-        return renderMessagesApp();
       case "chapters":
         return renderChaptersApp();
+      case "messages":
+        return renderMessagesApp();
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -366,7 +366,7 @@ export default function StoryReaderComponent() {
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900  max-w-[450px]">
         {/* Header */}
         <div className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow">
-          <Button variant="ghost" size="icon" onClick={handleBackToHome}>
+          <Button onClick={handleBackToHome} size="icon" variant="ghost">
             <ChevronLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-lg font-semibold">
@@ -376,7 +376,7 @@ export default function StoryReaderComponent() {
               : storyData.characters.find((c) => c.id === currentCharacter)
                   ?.name}
           </h1>
-          <Button variant="ghost" size="icon">
+          <Button size="icon" variant="ghost">
             <Grid className="h-6 w-6" />
           </Button>
         </div>
@@ -389,7 +389,7 @@ export default function StoryReaderComponent() {
         {/* Footer */}
         {selectedApp === "messages" && selectedConversation && (
           <div className="p-4 bg-white dark:bg-gray-800 shadow-top">
-            <Button onClick={handleBackToConversations} className="w-full">
+            <Button className="w-full" onClick={handleBackToConversations}>
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Conversations
             </Button>
@@ -402,10 +402,10 @@ export default function StoryReaderComponent() {
             {storyData.characters.map((character) => (
               <Button
                 key={character.id}
+                onClick={() => setCurrentCharacter(character.id)}
                 variant={
                   currentCharacter === character.id ? "default" : "ghost"
                 }
-                onClick={() => setCurrentCharacter(character.id)}
               >
                 {character.name}
               </Button>

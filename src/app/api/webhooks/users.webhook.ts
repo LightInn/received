@@ -7,12 +7,12 @@ export async function usersWebhook(evt: WebhookEvent) {
   console.log("userId:", evt.data.id);
 
   const new_user = await createUser({
-    id: evt.data.id,
-    username: evt.data.first_name ?? "",
-    email: evt.data.email_addresses[0].email_address,
     clerk_id: evt.data.id,
-    onboarded: false,
+    email: evt.data.email_addresses[0].email_address,
+    id: evt.data.id,
     nsfw: true,
+    onboarded: false,
+    username: evt.data.first_name ?? "",
   });
   console.log("New user created with ID:", new_user);
 }

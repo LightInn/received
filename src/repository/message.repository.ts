@@ -1,19 +1,20 @@
 // messageRepository.ts
 
 "use server";
+import { Message } from "@/models/message";
+import { eq, sql } from "drizzle-orm";
+
 import { db } from "../db";
 import {
-  MessageSchema,
-  ConversationSchema,
   CharacterSchema,
+  ConversationSchema,
+  MessageSchema,
 } from "../db/schema";
-import { sql, eq } from "drizzle-orm";
-import { Message } from "@/models/message";
 
 // Création d'un message
 export async function createMessage(
   data: Partial<Message>,
-): Promise<string | null> {
+): Promise<null | string> {
   try {
     if (!data.conversationId) throw new Error("Conversation ID is required");
     if (!data.authorId) throw new Error("Author ID is required");
@@ -22,9 +23,9 @@ export async function createMessage(
     const result = await db
       .insert(MessageSchema)
       .values({
-        conversationId: data.conversationId,
         authorId: data.authorId,
         content: data.content,
+        conversationId: data.conversationId,
         timestamp: data.timestamp || new Date(),
       })
       .returning({ insertedId: MessageSchema.id });
@@ -33,6 +34,37 @@ export async function createMessage(
   } catch (error) {
     console.error("Error creating message:", error);
     return null;
+  }
+}
+
+// Suppression d'un message
+export async function deleteMessage(messageId: string): Promise<boolean> {
+  try {
+    const result = await db
+      .delete(MessageSchema)
+      .where(eq(MessageSchema.id, messageId));
+    return result.rowCount == null ? false : result.rowCount > 0;
+  } catch (error) {
+    console.error("Error deleting message:", error);
+    return false;
+  }
+}
+
+// Récupération de tous les messages
+export async function getAllMessages(): Promise<Message[]> {
+  try {
+    const messages = await db.select().from(MessageSchema);
+
+    return messages.map((message) => ({
+      authorId: message.authorId,
+      content: message.content,
+      conversationId: message.conversationId,
+      id: message.id,
+      timestamp: message.timestamp,
+    }));
+  } catch (error) {
+    console.error("Error fetching all messages:", error);
+    return [];
   }
 }
 
@@ -49,16 +81,64 @@ export async function getMessageById(
 
     return message
       ? {
-          id: message.id,
-          conversationId: message.conversationId,
           authorId: message.authorId,
           content: message.content,
+          conversationId: message.conversationId,
+          id: message.id,
           timestamp: message.timestamp,
         }
       : null;
   } catch (error) {
     console.error("Error fetching message by ID:", error);
     return null;
+  }
+}
+
+// Récupération de tous les messages d'un auteur
+export async function getMessagesByAuthor(
+  authorId: string,
+): Promise<Message[]> {
+  try {
+    const messages = await db
+      .select()
+      .from(MessageSchema)
+      .where(eq(MessageSchema.authorId, authorId))
+      .orderBy(MessageSchema.timestamp);
+
+    return messages.map((message) => ({
+      authorId: message.authorId,
+      content: message.content,
+      conversationId: message.conversationId,
+      id: message.id,
+      timestamp: message.timestamp,
+    }));
+  } catch (error) {
+    console.error("Error fetching messages by author:", error);
+    return [];
+  }
+}
+
+// Récupération de tous les messages d'une conversation
+export async function getMessagesByConversation(
+  conversationId: string,
+): Promise<Message[]> {
+  try {
+    const messages = await db
+      .select()
+      .from(MessageSchema)
+      .where(eq(MessageSchema.conversationId, conversationId))
+      .orderBy(MessageSchema.timestamp);
+
+    return messages.map((message) => ({
+      authorId: message.authorId,
+      content: message.content,
+      conversationId: message.conversationId,
+      id: message.id,
+      timestamp: message.timestamp,
+    }));
+  } catch (error) {
+    console.error("Error fetching messages by conversation:", error);
+    return [];
   }
 }
 
@@ -80,84 +160,5 @@ export async function updateMessage(
   } catch (error) {
     console.error("Error updating message:", error);
     return false;
-  }
-}
-
-// Suppression d'un message
-export async function deleteMessage(messageId: string): Promise<boolean> {
-  try {
-    const result = await db
-      .delete(MessageSchema)
-      .where(eq(MessageSchema.id, messageId));
-    return result.rowCount == null ? false : result.rowCount > 0;
-  } catch (error) {
-    console.error("Error deleting message:", error);
-    return false;
-  }
-}
-
-// Récupération de tous les messages d'une conversation
-export async function getMessagesByConversation(
-  conversationId: string,
-): Promise<Message[]> {
-  try {
-    const messages = await db
-      .select()
-      .from(MessageSchema)
-      .where(eq(MessageSchema.conversationId, conversationId))
-      .orderBy(MessageSchema.timestamp);
-
-    return messages.map((message) => ({
-      id: message.id,
-      conversationId: message.conversationId,
-      authorId: message.authorId,
-      content: message.content,
-      timestamp: message.timestamp,
-    }));
-  } catch (error) {
-    console.error("Error fetching messages by conversation:", error);
-    return [];
-  }
-}
-
-// Récupération de tous les messages d'un auteur
-export async function getMessagesByAuthor(
-  authorId: string,
-): Promise<Message[]> {
-  try {
-    const messages = await db
-      .select()
-      .from(MessageSchema)
-      .where(eq(MessageSchema.authorId, authorId))
-      .orderBy(MessageSchema.timestamp);
-
-    return messages.map((message) => ({
-      id: message.id,
-      conversationId: message.conversationId,
-      authorId: message.authorId,
-      content: message.content,
-      timestamp: message.timestamp,
-    }));
-  } catch (error) {
-    console.error("Error fetching messages by author:", error);
-    return [];
-  }
-}
-
-// Récupération de tous les messages
-export async function getAllMessages(): Promise<Message[]> {
-  try {
-    const messages = await db.select().from(MessageSchema);
-
-    return messages.map((message) => ({
-      id: message.id,
-      conversationId: message.conversationId,
-      authorId: message.authorId,
-      content: message.content,
-      timestamp: message.timestamp,
-    }));
-  } catch (error) {
-    console.error("Error fetching all messages:", error);
-    return [];
   }
 }

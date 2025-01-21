@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -11,41 +11,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Trash2, Image as ImageIcon, Send, ChevronRight } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { ChevronRight, Image as ImageIcon, Send, Trash2 } from "lucide-react";
+import { useState } from "react";
 
-type Character = {
+type Chapter = {
+  conversations: Conversation[];
   id: string;
-  name: string;
-  color: string;
+  title: string;
 };
 
-type Message = {
+type Character = {
+  color: string;
   id: string;
-  characterId: string;
-  content: string;
-  type: "text" | "image";
+  name: string;
 };
 
 type Conversation = {
   id: string;
-  title: string;
   messages: Message[];
+  title: string;
 };
 
-type Chapter = {
+type Message = {
+  characterId: string;
+  content: string;
   id: string;
-  title: string;
-  conversations: Conversation[];
+  type: "image" | "text";
 };
 
 export default function EditorPage() {
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [characters, setCharacters] = useState<Character[]>([]);
-  const [currentChapter, setCurrentChapter] = useState<string | null>(null);
-  const [currentConversation, setCurrentConversation] = useState<string | null>(
+  const [currentChapter, setCurrentChapter] = useState<null | string>(null);
+  const [currentConversation, setCurrentConversation] = useState<null | string>(
     null,
   );
   const [newChapterTitle, setNewChapterTitle] = useState("");
@@ -53,16 +53,16 @@ export default function EditorPage() {
   const [newCharacterName, setNewCharacterName] = useState("");
   const [newCharacterColor, setNewCharacterColor] = useState("#000000");
   const [newMessage, setNewMessage] = useState("");
-  const [selectedCharacter, setSelectedCharacter] = useState<string | null>(
+  const [selectedCharacter, setSelectedCharacter] = useState<null | string>(
     null,
   );
 
   const addChapter = () => {
     if (newChapterTitle) {
       const newChapter: Chapter = {
+        conversations: [],
         id: Date.now().toString(),
         title: newChapterTitle,
-        conversations: [],
       };
       setChapters([...chapters, newChapter]);
       setNewChapterTitle("");
@@ -80,8 +80,8 @@ export default function EditorPage() {
               ...chapter.conversations,
               {
                 id: Date.now().toString(),
-                title: newConversationTitle,
                 messages: [],
+                title: newConversationTitle,
               },
             ],
           };
@@ -96,9 +96,9 @@ export default function EditorPage() {
   const addCharacter = () => {
     if (newCharacterName && newCharacterColor) {
       const newCharacter: Character = {
+        color: newCharacterColor,
         id: Date.now().toString(),
         name: newCharacterName,
-        color: newCharacterColor,
       };
       setCharacters([...characters, newCharacter]);
       setNewCharacterName("");
@@ -124,9 +124,9 @@ export default function EditorPage() {
                   messages: [
                     ...conv.messages,
                     {
-                      id: Date.now().toString(),
                       characterId: selectedCharacter,
                       content: newMessage,
+                      id: Date.now().toString(),
                       type: "text",
                     },
                   ],
@@ -159,9 +159,9 @@ export default function EditorPage() {
                     messages: [
                       ...conv.messages,
                       {
-                        id: Date.now().toString(),
                         characterId: selectedCharacter,
                         content: e.target?.result as string,
+                        id: Date.now().toString(),
                         type: "image",
                       },
                     ],
@@ -236,7 +236,7 @@ export default function EditorPage() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Story Editor</h1>
-      <Tabs defaultValue="chapters" className="space-y-4">
+      <Tabs className="space-y-4" defaultValue="chapters">
         <TabsList>
           <TabsTrigger value="chapters">Chapters</TabsTrigger>
           <TabsTrigger value="characters">Characters</TabsTrigger>
@@ -251,31 +251,31 @@ export default function EditorPage() {
             <CardContent>
               <div className="flex space-x-2 mb-4">
                 <Input
+                  onChange={(e) => setNewChapterTitle(e.target.value)}
                   placeholder="New Chapter Title"
                   value={newChapterTitle}
-                  onChange={(e) => setNewChapterTitle(e.target.value)}
                 />
                 <Button onClick={addChapter}>Add Chapter</Button>
               </div>
               <ScrollArea className="h-[300px]">
                 {chapters.map((chapter) => (
                   <div
-                    key={chapter.id}
                     className="flex items-center justify-between p-2 border-b"
+                    key={chapter.id}
                   >
                     <span>{chapter.title}</span>
                     <div>
                       <Button
-                        variant="ghost"
-                        size="sm"
                         onClick={() => setCurrentChapter(chapter.id)}
+                        size="sm"
+                        variant="ghost"
                       >
                         Edit
                       </Button>
                       <Button
-                        variant="ghost"
-                        size="sm"
                         onClick={() => deleteChapter(chapter.id)}
+                        size="sm"
+                        variant="ghost"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -294,23 +294,23 @@ export default function EditorPage() {
             <CardContent>
               <div className="flex space-x-2 mb-4">
                 <Input
+                  onChange={(e) => setNewCharacterName(e.target.value)}
                   placeholder="Character Name"
                   value={newCharacterName}
-                  onChange={(e) => setNewCharacterName(e.target.value)}
                 />
                 <Input
+                  className="w-20"
+                  onChange={(e) => setNewCharacterColor(e.target.value)}
                   type="color"
                   value={newCharacterColor}
-                  onChange={(e) => setNewCharacterColor(e.target.value)}
-                  className="w-20"
                 />
                 <Button onClick={addCharacter}>Add Character</Button>
               </div>
               <ScrollArea className="h-[300px]">
                 {characters.map((character) => (
                   <div
-                    key={character.id}
                     className="flex items-center justify-between p-2 border-b"
+                    key={character.id}
                   >
                     <div className="flex items-center space-x-2">
                       <div
@@ -320,9 +320,9 @@ export default function EditorPage() {
                       <span>{character.name}</span>
                     </div>
                     <Button
-                      variant="ghost"
-                      size="sm"
                       onClick={() => deleteCharacter(character.id)}
+                      size="sm"
+                      variant="ghost"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -357,9 +357,9 @@ export default function EditorPage() {
                 <div className="mt-4 space-y-4">
                   <div className="flex space-x-2">
                     <Input
+                      onChange={(e) => setNewConversationTitle(e.target.value)}
                       placeholder="New Conversation Title"
                       value={newConversationTitle}
-                      onChange={(e) => setNewConversationTitle(e.target.value)}
                     />
                     <Button onClick={addConversation}>Add Conversation</Button>
                   </div>
@@ -399,9 +399,9 @@ export default function EditorPage() {
                       </Select>
                       <div className="flex space-x-2">
                         <Textarea
+                          onChange={(e) => setNewMessage(e.target.value)}
                           placeholder="Type your message"
                           value={newMessage}
-                          onChange={(e) => setNewMessage(e.target.value)}
                         />
                         <Button onClick={addMessage}>
                           <Send className="h-4 w-4" />
@@ -409,14 +409,14 @@ export default function EditorPage() {
                       </div>
                       <div>
                         <input
-                          type="file"
                           accept="image/*"
-                          onChange={addImage}
                           className="hidden"
                           id="image-upload"
+                          onChange={addImage}
+                          type="file"
                         />
                         <label htmlFor="image-upload">
-                          <Button variant="outline" asChild>
+                          <Button asChild variant="outline">
                             <span>
                               <ImageIcon className="h-4 w-4 mr-2" /> Upload
                               Image
@@ -436,8 +436,8 @@ export default function EditorPage() {
                             );
                             return (
                               <div
-                                key={message.id}
                                 className="flex items-start space-x-2 mb-2"
+                                key={message.id}
                               >
                                 <div
                                   className="w-8 h-8 rounded-full flex items-center justify-center"
@@ -453,15 +453,13 @@ export default function EditorPage() {
                                     <p>{message.content}</p>
                                   ) : (
                                     <img
-                                      src={message.content}
                                       alt="Uploaded"
                                       className="max-w-xs rounded-md"
+                                      src={message.content}
                                     />
                                   )}
                                 </div>
                                 <Button
-                                  variant="ghost"
-                                  size="sm"
                                   onClick={() =>
                                     deleteMessage(
                                       currentChapter,
@@ -469,6 +467,8 @@ export default function EditorPage() {
                                       message.id,
                                     )
                                   }
+                                  size="sm"
+                                  variant="ghost"
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
@@ -494,20 +494,20 @@ export default function EditorPage() {
                   <h2 className="text-xl font-bold mb-4">Chapters</h2>
                   <ScrollArea className="h-[500px]">
                     {chapters.map((chapter) => (
-                      <div key={chapter.id} className="mb-8">
+                      <div className="mb-8" key={chapter.id}>
                         <h3 className="text-lg font-semibold mb-2">
                           {chapter.title}
                         </h3>
                         <div className="space-y-2">
                           {chapter.conversations.map((conversation) => (
                             <Button
-                              key={conversation.id}
-                              variant="outline"
                               className="w-full justify-start"
+                              key={conversation.id}
                               onClick={() => {
                                 setCurrentChapter(chapter.id);
                                 setCurrentConversation(conversation.id);
                               }}
+                              variant="outline"
                             >
                               {conversation.title}
                             </Button>
@@ -556,8 +556,8 @@ export default function EditorPage() {
                               );
                               return (
                                 <div
-                                  key={message.id}
                                   className={`flex ${message.characterId === characters[0]?.id ? "justify-start" : "justify-end"}`}
+                                  key={message.id}
                                 >
                                   <div
                                     className={`max-w-[70%] ${message.characterId === characters[0]?.id ? "bg-gray-200 dark:bg-gray-700" : "bg-blue-500 text-white"} rounded-lg p-2`}
@@ -569,9 +569,9 @@ export default function EditorPage() {
                                       <p>{message.content}</p>
                                     ) : (
                                       <img
-                                        src={message.content}
                                         alt="Uploaded"
                                         className="max-w-full rounded-md"
+                                        src={message.content}
                                       />
                                     )}
                                   </div>

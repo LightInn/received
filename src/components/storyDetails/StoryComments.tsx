@@ -1,12 +1,12 @@
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { MessageCircle } from "lucide-react";
 
 export default function StoryComments() {
@@ -18,7 +18,7 @@ export default function StoryComments() {
       <CardContent>
         <div className="space-y-4">
           {[1, 2, 3].map((commentId) => (
-            <div key={commentId} className="flex space-x-4">
+            <div className="flex space-x-4" key={commentId}>
               <Avatar>
                 <AvatarImage
                   src={`https://api.dicebear.com/6.x/initials/svg?seed=User${commentId}`}

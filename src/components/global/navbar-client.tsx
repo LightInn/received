@@ -11,7 +11,7 @@ import {
 export default function NavbarClient() {
   return (
     <>
-      <Button variant="ghost" className="text-purple-600 font-medium">
+      <Button className="text-purple-600 font-medium" variant="ghost">
         Try Premium
       </Button>
 

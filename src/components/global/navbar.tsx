@@ -1,25 +1,23 @@
-import Link from "next/link";
-
-import { Search } from "lucide-react";
+import NavbarClient from "@/components/global/navbar-client";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import NavbarClient from "@/components/global/navbar-client";
+import { Search } from "lucide-react";
+import Link from "next/link";
 
 export function NavBar() {
   return (
     <nav className="flex items-center justify-between px-4 py-2 border-b">
       <div className="flex items-center gap-6">
-        <Link href="/" className="text-[#3195b3]">
+        <Link className="text-[#3195b3]" href="/">
           <svg
-            width="29"
+            fill="none"
             height="36"
             viewBox="0 0 29 36"
-            fill="none"
+            width="29"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -31,7 +29,7 @@ export function NavBar() {
         <Link href={`/library`}>Library</Link>
         <DropdownMenu>
           <DropdownMenuTrigger className="text-sm font-medium">
-           Browse
+            Browse
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>Categories</DropdownMenuItem>
@@ -54,9 +52,9 @@ export function NavBar() {
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <input
-            type="search"
-            placeholder="Search"
             className="w-full pl-8 pr-4 py-2 rounded-md border bg-background"
+            placeholder="Search"
+            type="search"
           />
         </div>
       </div>

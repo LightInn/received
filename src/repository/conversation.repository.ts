@@ -1,15 +1,16 @@
 // conversationRepository.ts
 
 "use server";
-import { db } from "../db";
-import { ConversationSchema, StorySchema, CharacterSchema } from "../db/schema";
-import { sql, eq } from "drizzle-orm";
 import { Conversation } from "@/models/conversation";
+import { eq, sql } from "drizzle-orm";
+
+import { db } from "../db";
+import { CharacterSchema, ConversationSchema, StorySchema } from "../db/schema";
 
 // Création d'une conversation
 export async function createConversation(
   data: Partial<Conversation>,
-): Promise<string | null> {
+): Promise<null | string> {
   try {
     if (!data.storyId) throw new Error("Story ID is required");
     if (!data.title) throw new Error("Title is required");
@@ -17,10 +18,10 @@ export async function createConversation(
     const result = await db
       .insert(ConversationSchema)
       .values({
+        createdAt: new Date(),
+        participants: data.participants, // Liste des ID des personnages participants
         storyId: data.storyId,
         title: data.title,
-        participants: data.participants, // Liste des ID des personnages participants
-        createdAt: new Date(),
       })
       .returning({ insertedId: ConversationSchema.id });
 
@@ -28,54 +29,6 @@ export async function createConversation(
   } catch (error) {
     console.error("Error creating conversation:", error);
     return null;
-  }
-}
-
-// Récupération d'une conversation par ID
-export async function getConversationById(
-  conversationId: string,
-): Promise<Conversation | null> {
-  try {
-    const conversation = await db
-      .select()
-      .from(ConversationSchema)
-      .where(eq(ConversationSchema.id, conversationId))
-      .single();
-
-    return conversation
-      ? {
-          id: conversation.id,
-          storyId: conversation.storyId,
-          title: conversation.title,
-          participants: conversation.participants,
-          createdAt: conversation.createdAt,
-        }
-      : null;
-  } catch (error) {
-    console.error("Error fetching conversation by ID:", error);
-    return null;
-  }
-}
-
-// Mise à jour d'une conversation
-export async function updateConversation(
-  conversationId: string,
-  data: Partial<Conversation>,
-): Promise<boolean> {
-  try {
-    const result = await db
-      .update(ConversationSchema)
-      .set({
-        title: data.title,
-        participants: data.participants,
-        updatedAt: new Date(),
-      })
-      .where(eq(ConversationSchema.id, conversationId));
-
-    return result.rowCount == null ? false : result.rowCount > 0;
-  } catch (error) {
-    console.error("Error updating conversation:", error);
-    return false;
   }
 }
 
@@ -94,30 +47,47 @@ export async function deleteConversation(
   }
 }
 
-// Récupération des conversations par histoire
-export async function getConversationsByStory(
-  storyId: string,
-): Promise<Conversation[]> {
+// Récupération de toutes les conversations
+export async function getAllConversations(): Promise<Conversation[]> {
   try {
-    const conversations = await db
-      .select({
-        id: ConversationSchema.id,
-        title: ConversationSchema.title,
-        participants: ConversationSchema.participants,
-      })
-      .from(ConversationSchema)
-      .where(eq(ConversationSchema.storyId, storyId));
+    const conversations = await db.select().from(ConversationSchema);
 
     return conversations.map((conversation) => ({
-      id: conversation.id,
-      storyId,
-      title: conversation.title,
-      participants: conversation.participants,
       createdAt: conversation.createdAt,
+      id: conversation.id,
+      participants: conversation.participants,
+      storyId: conversation.storyId,
+      title: conversation.title,
     }));
   } catch (error) {
-    console.error("Error fetching conversations by story:", error);
+    console.error("Error fetching all conversations:", error);
     return [];
+  }
+}
+
+// Récupération d'une conversation par ID
+export async function getConversationById(
+  conversationId: string,
+): Promise<Conversation | null> {
+  try {
+    const conversation = await db
+      .select()
+      .from(ConversationSchema)
+      .where(eq(ConversationSchema.id, conversationId))
+      .single();
+
+    return conversation
+      ? {
+          createdAt: conversation.createdAt,
+          id: conversation.id,
+          participants: conversation.participants,
+          storyId: conversation.storyId,
+          title: conversation.title,
+        }
+      : null;
+  } catch (error) {
+    console.error("Error fetching conversation by ID:", error);
+    return null;
   }
 }
 
@@ -129,9 +99,9 @@ export async function getConversationsByParticipant(
     const conversations = await db
       .select({
         id: ConversationSchema.id,
+        participants: ConversationSchema.participants,
         storyId: ConversationSchema.storyId,
         title: ConversationSchema.title,
-        participants: ConversationSchema.participants,
       })
       .from(ConversationSchema)
       .where(
@@ -139,11 +109,11 @@ export async function getConversationsByParticipant(
       );
 
     return conversations.map((conversation) => ({
+      createdAt: conversation.createdAt,
       id: conversation.id,
+      participants: conversation.participants,
       storyId: conversation.storyId,
       title: conversation.title,
-      participants: conversation.participants,
-      createdAt: conversation.createdAt,
     }));
   } catch (error) {
     console.error("Error fetching conversations by participant:", error);
@@ -151,20 +121,51 @@ export async function getConversationsByParticipant(
   }
 }
 
-// Récupération de toutes les conversations
-export async function getAllConversations(): Promise<Conversation[]> {
+// Récupération des conversations par histoire
+export async function getConversationsByStory(
+  storyId: string,
+): Promise<Conversation[]> {
   try {
-    const conversations = await db.select().from(ConversationSchema);
+    const conversations = await db
+      .select({
+        id: ConversationSchema.id,
+        participants: ConversationSchema.participants,
+        title: ConversationSchema.title,
+      })
+      .from(ConversationSchema)
+      .where(eq(ConversationSchema.storyId, storyId));
 
     return conversations.map((conversation) => ({
-      id: conversation.id,
-      storyId: conversation.storyId,
-      title: conversation.title,
-      participants: conversation.participants,
       createdAt: conversation.createdAt,
+      id: conversation.id,
+      participants: conversation.participants,
+      storyId,
+      title: conversation.title,
     }));
   } catch (error) {
-    console.error("Error fetching all conversations:", error);
+    console.error("Error fetching conversations by story:", error);
     return [];
+  }
+}
+
+// Mise à jour d'une conversation
+export async function updateConversation(
+  conversationId: string,
+  data: Partial<Conversation>,
+): Promise<boolean> {
+  try {
+    const result = await db
+      .update(ConversationSchema)
+      .set({
+        participants: data.participants,
+        title: data.title,
+        updatedAt: new Date(),
+      })
+      .where(eq(ConversationSchema.id, conversationId));
+
+    return result.rowCount == null ? false : result.rowCount > 0;
+  } catch (error) {
+    console.error("Error updating conversation:", error);
+    return false;
   }
 }

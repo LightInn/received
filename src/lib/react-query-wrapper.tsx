@@ -22,7 +22,6 @@ function makeQueryClient() {
 
 let browserQueryClient: QueryClient | undefined = undefined;
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 export default function Providers({ children }) {
   // NOTE: Avoid useState when initializing the query client if you don't

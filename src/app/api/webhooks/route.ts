@@ -56,7 +56,10 @@ export async function POST(req: Request) {
   console.log("Webhook payload:", body);
 
   if (evt.type === "user.created") {
-    usersWebhook(evt).then(() => console.log("finished"));
+    usersWebhook(evt).catch((err) => {
+      console.error("Error processing user webhook:", err);
+      return new Response("Error processing user webhook", { status: 500 });
+    });
   }
 
   return new Response("Webhook received", { status: 200 });

@@ -1,26 +1,30 @@
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import perfectionist from "eslint-plugin-perfectionist";
 import pluginNext from "@next/eslint-plugin-next";
 import parser from "@typescript-eslint/parser";
 
 export default [
+  perfectionist.configs["recommended-line-length"],
+  eslintPluginPrettierRecommended,
   {
-    name: "ESLint Config - nextjs",
     languageOptions: {
-      parser,
       parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
         ecmaFeatures: {
           jsx: true,
         },
+        ecmaVersion: "latest",
+        sourceType: "module",
       },
+      parser,
+    },
+    rules: {
+      ...pluginNext.configs.recommended.rules,
+      ...pluginNext.configs["core-web-vitals"].rules,
     },
     plugins: {
       "@next/next": pluginNext,
     },
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-    rules: {
-      ...pluginNext.configs.recommended.rules,
-      ...pluginNext.configs["core-web-vitals"].rules,
-    },
+    name: "ESLint Config - nextjs",
   },
 ];

@@ -1,7 +1,12 @@
-import { CharacterSchema } from "@/db/schema";
+import { Story } from "@/models/Story";
 
-type CharacterBase = typeof CharacterSchema.$inferSelect;
-
-export interface Character extends CharacterBase {
-  supertype?: boolean;
+export interface Character {
+  id: string;
+  story: Story;
+  name: string;
+  description?: string;
+  picture: string;
+  color: string;
+  created: string;
+  updated: string;
 }

@@ -1,7 +1,11 @@
-import { ConversationSchema } from "@/db/schema";
+import { Story } from "@/models/Story";
+import { Chapter } from "@/models/Chapter";
 
-type ConversationBase = typeof ConversationSchema.$inferSelect;
-
-export interface Conversation extends ConversationBase {
-  supertype?: boolean;
+export interface Conversation {
+  id: string;
+  story: Story;
+  chapter: Chapter;
+  title: string;
+  created: string;
+  updated: string;
 }

@@ -1,7 +1,15 @@
-import { MessageSchema } from "@/db/schema";
+import { Chapter } from "@/models/Chapter";
+import { Conversation } from "@/models/conversation";
+import { Character } from "@/models/character";
 
-type MessageBase = typeof MessageSchema.$inferSelect;
-
-export interface Message extends MessageBase {
-  supertype?: boolean;
+export interface Message {
+  id: string;
+  chapter: Chapter;
+  conversation: Conversation;
+  sender: Character;
+  content: string;
+  datetime: string;
+  media: string;
+  created: string;
+  updated: string;
 }

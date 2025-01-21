@@ -12,9 +12,7 @@ export async function createUser(data: Partial<User>): Promise<string | null> {
       username: data.username,
       email: data.email,
       clerk_id: data.clerk_id, // Assuming clerk_id is used as the main ID
-      bio: data.bio,
-      avatarUrl: data.avatarUrl,
-      onborded: false, // Default value
+      onboarded: false, // Default value
     });
 
     return record.id;

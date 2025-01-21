@@ -1,7 +1,11 @@
-import { ChapterSchema } from "@/db/schema";
+import { Story } from "@/models/Story";
 
-type ChapterBase = typeof ChapterSchema.$inferSelect;
-
-export interface Chapter extends ChapterBase {
-  supertype?: boolean;
+export interface Chapter {
+  id: string;
+  title: string;
+  story: Story;
+  draft: boolean;
+  release: string;
+  created: string;
+  updated: string;
 }

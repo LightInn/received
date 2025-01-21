@@ -18,11 +18,12 @@ import {
   Eye,
   ChevronRight,
 } from "lucide-react";
-import { Navbar } from "@/components/global/navbar";
 
 import { useQuery } from "@tanstack/react-query";
-import { getAllStories } from "@/repository/story.repository";
+import { getAllPublishedStories } from "@/repository/story.repository";
 import Link from "next/link";
+import { NavBar } from "@/components/global/navbar";
+import {Story} from "@/models/Story";
 
 // Mock data for stories
 // const mockStories = [
@@ -40,18 +41,12 @@ import Link from "next/link";
 //     { id: 12, title: "Voicemail from the Future", views: 5500, chapters: 2, category: "new" },
 // ]
 
-type Story = {
-  id: number;
-  title: string;
-  views: number;
-  chapters: number;
-  category: string;
-};
+
 
 export default function LibraryPage() {
   const { data, error, isPending, isSuccess } = useQuery({
     queryKey: ["dbStories"],
-    queryFn: async () => getAllStories(),
+    queryFn: async () => getAllPublishedStories(),
   });
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -120,7 +115,7 @@ export default function LibraryPage() {
 
     return (
       <div className="container mx-auto p-4">
-        <Navbar />
+        <NavBar />
         <h1 className="text-3xl font-bold mb-6">Discover Stories</h1>
         <div className="mb-6">
           <Input

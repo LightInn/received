@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getStoryById } from "@/db/repository/story";
+import { getStoryById } from "@/repository/story.repository";
 import StoryHeader from "../../../components/storyDetails/StoryHeader";
 import StoryChapters from "../../../components/storyDetails/StoryChapters";
 import StoryComments from "../../../components/storyDetails/StoryComments";

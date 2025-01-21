@@ -28,10 +28,10 @@ export function NavBar() {
             />
           </svg>
         </Link>
-
+        <Link href={`/library`}>Library</Link>
         <DropdownMenu>
           <DropdownMenuTrigger className="text-sm font-medium">
-            Browse
+           Browse
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>Categories</DropdownMenuItem>

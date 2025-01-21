@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "9.0.3",
-    "@types/node": "20.16.13",
+    "@types/node": "22.10.7",
     "@types/react": "19.0.7",
     "@typescript-eslint/parser": "8.21.0",
     "@types/react-dom": "19.0.3",

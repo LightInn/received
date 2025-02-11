@@ -46,7 +46,7 @@
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
     "@types/uuid": "10.0.0",
-    "@typescript-eslint/parser": "8.23.0",
+    "@typescript-eslint/parser": "8.24.0",
     "esbuild-register": "3.6.0",
     "eslint": "9.20.0",
     "eslint-config-next": "15.1.7",

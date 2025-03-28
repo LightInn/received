@@ -30,8 +30,8 @@
     "lucide-react": "0.473.0",
     "next": "15.2.4",
     "pocketbase": "0.25.1",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "svix": "1.62.0",
     "tailwind-merge": "2.6.0",
     "tailwindcss-animate": "1.0.7"

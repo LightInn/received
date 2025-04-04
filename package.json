@@ -32,7 +32,7 @@
     "pocketbase": "0.25.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "svix": "1.63.0",
+    "svix": "1.63.1",
     "tailwind-merge": "2.6.0",
     "tailwindcss-animate": "1.0.7"
   },

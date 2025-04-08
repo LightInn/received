@@ -12,8 +12,8 @@ importers:
         specifier: 6.14.0
         version: 6.14.0(next@15.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(svix@1.63.1)
       '@clerk/types':
-        specifier: 4.50.2
-        version: 4.50.2
+        specifier: 4.51.0
+        version: 4.51.0
       '@eslint/eslintrc':
         specifier: 3.3.1
         version: 3.3.1
@@ -204,10 +204,6 @@ packages:
         optional: true
       react-dom:
         optional: true
-
-  '@clerk/types@4.50.2':
-    resolution: {integrity: sha512-4m1RlV/Dl3ZGW5FAXmKfdCbhF7uTDDvaADZH1F6L3d3lRBdI6i7GppK1KqscOSgoC8OwJqGaiDVUPsg+Pp8usg==}
-    engines: {node: '>=18.17.0'}
 
   '@clerk/types@4.51.0':
     resolution: {integrity: sha512-igUZ5BOe3rOgQSM8v9f6zHCOowX3yV36zWYImMUWD61cpLqUokKtN6qH2x8sHUHrq3B9Dj3AsXItGaQsLNs3mw==}
@@ -2778,10 +2774,6 @@ snapshots:
     optionalDependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
-
-  '@clerk/types@4.50.2':
-    dependencies:
-      csstype: 3.1.3
 
   '@clerk/types@4.51.0':
     dependencies:

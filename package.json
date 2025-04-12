@@ -42,7 +42,7 @@
     "@getify/eslint-plugin-proper-arrows": "^11.0.3",
     "@next/eslint-plugin-next": "15.3.0",
     "@tanstack/eslint-plugin-query": "^5.64.2",
-    "@types/node": "22.14.0",
+    "@types/node": "22.14.1",
     "@types/react": "19.1.1",
     "@types/react-dom": "19.1.2",
     "@types/uuid": "10.0.0",

@@ -10,7 +10,7 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@clerk/nextjs": "6.14.3",
+    "@clerk/nextjs": "6.15.0",
     "@clerk/types": "4.53.0",
     "@eslint/eslintrc": "3.3.1",
     "@radix-ui/react-avatar": "1.1.4",
